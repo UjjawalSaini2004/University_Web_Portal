@@ -11,11 +11,19 @@ const {
   getPendingAdmins,
   approveAdmin,
   denyAdmin,
+  getAdminDetails,
+  deleteAdmin,
+  deactivateAdmin,
   deleteUser,
   updateUserRole,
+  // Admin Registration Approval
+  getPendingAdminRegistrations,
+  approveAdminRegistration,
+  rejectAdminRegistration,
   // Teacher Management
   getAllTeachers,
   getPendingTeachers,
+  getTeacherDetails,
   approveTeacher,
   denyTeacher,
   createTeacher,
@@ -23,6 +31,7 @@ const {
   deleteTeacher,
   // Student Management
   getAllStudents,
+  getStudentDetails,
   getPendingStudents,
   approveStudent,
   denyStudent,
@@ -64,15 +73,29 @@ router.delete('/users/:id', checkPermission('delete', 'users'), canManageTargetU
 router.put('/users/:id/role', checkPermission('update', 'users'), canManageTargetUser, updateUserRole);
 
 // Admin Management - Super Admin Only
+console.log('🔧 Registering admin management routes...');
 router.post('/admins/create', checkPermission('create', 'admins'), createAdmin);
 router.post('/admins/waitlist', checkPermission('create', 'admins'), addAdminToWaitlist);
 router.get('/admins/pending', checkPermission('read', 'admins'), getPendingAdmins);
+router.get('/admins/:id', checkPermission('read', 'admins'), getAdminDetails);
 router.post('/admins/:id/approve', checkPermission('update', 'admins'), approveAdmin);
 router.post('/admins/:id/deny', checkPermission('update', 'admins'), denyAdmin);
+router.delete('/admins/:id', (req, res, next) => {
+  console.log('🗑️ DELETE /admins/:id route hit! ID:', req.params.id);
+  next();
+}, checkPermission('delete', 'admins'), deleteAdmin);
+router.post('/admins/:id/deactivate', checkPermission('update', 'admins'), deactivateAdmin);
+console.log('✅ Admin management routes registered');
+
+// Admin Registration Approval - Super Admin Only
+router.get('/admin-registrations/pending', checkPermission('read', 'admins'), getPendingAdminRegistrations);
+router.post('/admin-registrations/:id/approve', checkPermission('update', 'admins'), approveAdminRegistration);
+router.post('/admin-registrations/:id/reject', checkPermission('update', 'admins'), rejectAdminRegistration);
 
 // Teacher Management
 router.get('/teachers', checkPermission('read', 'teachers'), getAllTeachers);
 router.get('/teachers/pending', checkPermission('read', 'teachers'), getPendingTeachers);
+router.get('/teachers/:id', checkPermission('read', 'teachers'), getTeacherDetails);
 router.post('/teachers/create', checkPermission('create', 'teachers'), createTeacher);
 router.post('/teachers/:id/approve', checkPermission('update', 'teachers'), approveTeacher);
 router.post('/teachers/:id/deny', checkPermission('update', 'teachers'), denyTeacher);
@@ -82,6 +105,7 @@ router.delete('/teachers/:id', checkPermission('delete', 'teachers'), canManageT
 // Student Management
 router.get('/students', checkPermission('read', 'students'), getAllStudents);
 router.get('/students/pending', checkPermission('read', 'students'), getPendingStudents);
+router.get('/students/:id', checkPermission('read', 'students'), getStudentDetails);
 router.post('/students/create', checkPermission('create', 'students'), createStudent);
 router.post('/students/:id/approve', checkPermission('update', 'students'), approveStudent);
 router.post('/students/:id/deny', checkPermission('update', 'students'), denyStudent);

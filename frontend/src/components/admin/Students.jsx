@@ -333,6 +333,9 @@ const Students = () => {
                   required
                   value={formData.phoneNumber}
                   onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+                  maxLength={10}
+                  pattern="[0-9]{10}"
+                  helperText="10 digits required"
                 />
                 <Input
                   label="Date of Birth"

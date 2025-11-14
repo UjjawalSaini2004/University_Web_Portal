@@ -39,9 +39,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       case 'admin':
         return [
           { icon: FiHome, label: 'Dashboard', path: ROUTES.ADMIN_DASHBOARD },
-          { icon: FiUserCheck, label: 'Pending Approvals', path: ROUTES.ADMIN_WAITLIST },
           { icon: FiUser, label: 'Students', path: ROUTES.ADMIN_STUDENTS },
-          { icon: FiUser, label: 'Faculty', path: ROUTES.ADMIN_FACULTY },
+          { icon: FiUser, label: 'Teachers', path: ROUTES.ADMIN_FACULTY },
           { icon: FiBook, label: 'Departments', path: ROUTES.ADMIN_DEPARTMENTS },
           { icon: FiBook, label: 'Courses', path: ROUTES.ADMIN_COURSES },
           { icon: FiCalendar, label: 'Timetable', path: ROUTES.ADMIN_TIMETABLE },

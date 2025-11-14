@@ -35,7 +35,7 @@ const Faculty = () => {
 
   const fetchData = async () => {
     try {
-      console.log('🔄 Fetching faculty and departments from database...');
+      console.log('🔄 Fetching teachers and departments from database...');
       setLoading(true);
       
       const [facultyRes, deptsRes] = await Promise.all([
@@ -43,7 +43,7 @@ const Faculty = () => {
         adminService.getDepartments()
       ]);
       
-      console.log('✅ Faculty fetched:', facultyRes);
+      console.log('✅ Teachers fetched:', facultyRes);
       console.log('✅ Departments fetched:', deptsRes);
       
       setFaculty(facultyRes.data || []);
@@ -61,16 +61,16 @@ const Faculty = () => {
     e.preventDefault();
     
     try {
-      console.log('📝 Submitting faculty data:', formData);
+      console.log('📝 Submitting teacher data:', formData);
       
       if (editingFaculty) {
         await adminService.updateFaculty(editingFaculty._id, formData);
-        toast.success('Faculty updated successfully');
-        console.log('✅ Faculty updated, refetching data...');
+        toast.success('Teacher updated successfully');
+        console.log('✅ Teacher updated, refetching data...');
       } else {
         await adminService.addFaculty(formData);
-        toast.success('Faculty added successfully');
-        console.log('✅ Faculty created, refetching data...');
+        toast.success('Teacher added successfully');
+        console.log('✅ Teacher created, refetching data...');
       }
       
       // Immediately refetch fresh data from database
@@ -94,8 +94,8 @@ const Faculty = () => {
         employeeId: '',
       });
     } catch (error) {
-      console.error('❌ Error saving faculty:', error);
-      const errorMessage = error.response?.data?.message || 'Failed to save faculty';
+      console.error('❌ Error saving teacher:', error);
+      const errorMessage = error.response?.data?.message || 'Failed to save teacher';
       toast.error(errorMessage);
     }
   };
@@ -120,19 +120,19 @@ const Faculty = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to deactivate this faculty member?')) return;
+    if (!window.confirm('Are you sure you want to delete this teacher?')) return;
     
     try {
-      console.log('🗑️ Deleting faculty:', id);
+      console.log('🗑️ Deleting teacher:', id);
       await adminService.deleteFaculty(id);
-      toast.success('Faculty deactivated successfully');
-      console.log('✅ Faculty deleted, refetching data...');
+      toast.success('Teacher deactivated successfully');
+      console.log('✅ Teacher deleted, refetching data...');
       
       // Immediately refetch fresh data from database
       await fetchData();
     } catch (error) {
-      console.error('❌ Error deleting faculty:', error);
-      const errorMessage = error.response?.data?.message || 'Failed to delete faculty';
+      console.error('❌ Error deleting teacher:', error);
+      const errorMessage = error.response?.data?.message || 'Failed to delete teacher';
       toast.error(errorMessage);
     }
   };
@@ -171,10 +171,10 @@ const Faculty = () => {
     <Layout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">Faculty Management</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Teachers Management</h1>
           <button onClick={handleAdd} className="btn btn-primary flex items-center space-x-2">
             <FiPlus size={20} />
-            <span>Add Faculty</span>
+            <span>Add Teacher</span>
           </button>
         </div>
 
@@ -184,7 +184,7 @@ const Faculty = () => {
             <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
             <input
               type="text"
-              placeholder="Search faculty by name, email, or employee ID..."
+              placeholder="Search teachers by name, email, or employee ID..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="input pl-10 w-full"
@@ -199,7 +199,7 @@ const Faculty = () => {
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Faculty
+                    Teacher
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Employee ID
@@ -222,7 +222,7 @@ const Faculty = () => {
                 {filteredFaculty.length === 0 ? (
                   <tr>
                     <td colSpan="6" className="px-6 py-4 text-center text-gray-500">
-                      No faculty found
+                      No teachers found
                     </td>
                   </tr>
                 ) : (
@@ -336,6 +336,9 @@ const Faculty = () => {
                   required
                   value={formData.phoneNumber}
                   onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+                  maxLength={10}
+                  pattern="[0-9]{10}"
+                  helperText="10 digits required"
                 />
                 <Input
                   label="Date of Birth"

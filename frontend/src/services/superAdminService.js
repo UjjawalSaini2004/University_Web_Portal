@@ -65,6 +65,38 @@ export const denyAdmin = async (adminId, reason) => {
   return response.data;
 };
 
+export const getAdminDetails = async (adminId) => {
+  const response = await api.get(`${BASE_URL}/admins/${adminId}`);
+  return response.data;
+};
+
+export const deleteAdmin = async (adminId) => {
+  const response = await api.delete(`${BASE_URL}/admins/${adminId}`);
+  return response.data;
+};
+
+export const deactivateAdmin = async (adminId) => {
+  const response = await api.post(`${BASE_URL}/admins/${adminId}/deactivate`);
+  return response.data;
+};
+
+// ==================== ADMIN REGISTRATION APPROVAL ====================
+
+export const getPendingAdminRegistrations = async () => {
+  const response = await api.get(`${BASE_URL}/admin-registrations/pending`);
+  return response.data;
+};
+
+export const approveAdminRegistration = async (adminId) => {
+  const response = await api.post(`${BASE_URL}/admin-registrations/${adminId}/approve`);
+  return response.data;
+};
+
+export const rejectAdminRegistration = async (adminId) => {
+  const response = await api.post(`${BASE_URL}/admin-registrations/${adminId}/reject`);
+  return response.data;
+};
+
 // ==================== TEACHER MANAGEMENT ====================
 
 export const getAllTeachers = async (params = {}) => {
@@ -97,6 +129,11 @@ export const updateTeacher = async (teacherId, updates) => {
   return response.data;
 };
 
+export const getTeacherDetails = async (teacherId) => {
+  const response = await api.get(`${BASE_URL}/teachers/${teacherId}`);
+  return response.data;
+};
+
 export const deleteTeacher = async (teacherId) => {
   const response = await api.delete(`${BASE_URL}/teachers/${teacherId}`);
   return response.data;
@@ -105,12 +142,28 @@ export const deleteTeacher = async (teacherId) => {
 // ==================== STUDENT MANAGEMENT ====================
 
 export const getAllStudents = async (params = {}) => {
-  const response = await api.get(`${BASE_URL}/students`, { params });
+  const response = await api.get(`${BASE_URL}/students`, { 
+    params,
+    headers: {
+      'Cache-Control': 'no-store, no-cache, must-revalidate',
+      'Pragma': 'no-cache'
+    }
+  });
   return response.data;
 };
 
 export const getPendingStudents = async () => {
-  const response = await api.get(`${BASE_URL}/students/pending`);
+  const response = await api.get(`${BASE_URL}/students/pending`, {
+    headers: {
+      'Cache-Control': 'no-store, no-cache, must-revalidate',
+      'Pragma': 'no-cache'
+    }
+  });
+  return response.data;
+};
+
+export const getStudentDetails = async (studentId) => {
+  const response = await api.get(`${BASE_URL}/students/${studentId}`);
   return response.data;
 };
 
@@ -220,9 +273,17 @@ const superAdminService = {
   getPendingAdmins,
   approveAdmin,
   denyAdmin,
+  getAdminDetails,
+  deleteAdmin,
+  deactivateAdmin,
+  // Admin Registration Approval
+  getPendingAdminRegistrations,
+  approveAdminRegistration,
+  rejectAdminRegistration,
   // Teacher Management
   getAllTeachers,
   getPendingTeachers,
+  getTeacherDetails,
   createTeacher,
   approveTeacher,
   denyTeacher,
@@ -230,6 +291,7 @@ const superAdminService = {
   deleteTeacher,
   // Student Management
   getAllStudents,
+  getStudentDetails,
   getPendingStudents,
   createStudent,
   approveStudent,

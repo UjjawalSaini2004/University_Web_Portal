@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import superAdminService from '../../../services/superAdminService';
 import Badge from '../../common/Badge';
 import Modal from '../../common/Modal';
@@ -6,6 +7,7 @@ import Input from '../../common/Input';
 import Button from '../../common/Button';
 
 const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) => {
+  const navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(false);
   const [teachers, setTeachers] = useState([]);
   const [pendingTeachers, setPendingTeachers] = useState([]);
@@ -278,13 +280,23 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
                             </Badge>
                           </td>
                           <td className="px-4 py-3 text-right">
-                            <button
-                              onClick={() => handleDelete(teacher._id)}
-                              className="text-red-600 hover:text-red-800 font-medium text-sm"
-                              title="Delete teacher"
-                            >
-                              Delete
-                            </button>
+                            <div className="flex items-center justify-end space-x-2">
+                              <button
+                                onClick={() => navigate(`/superadmin/teachers/${teacher._id}`)}
+                                className="text-indigo-600 hover:text-indigo-800 font-medium text-sm"
+                                title="View details"
+                              >
+                                View
+                              </button>
+                              <span className="text-gray-300">|</span>
+                              <button
+                                onClick={() => handleDelete(teacher._id)}
+                                className="text-red-600 hover:text-red-800 font-medium text-sm"
+                                title="Delete teacher"
+                              >
+                                Delete
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       ))}
@@ -326,6 +338,13 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
                         </p>
                       </div>
                       <div className="flex items-center space-x-2">
+                        <button
+                          onClick={() => navigate(`/superadmin/teachers/pending/${teacher._id}`)}
+                          className="px-2 py-1 text-xs font-medium text-indigo-700 bg-indigo-100 rounded hover:bg-indigo-200 transition-colors"
+                          title="View details"
+                        >
+                          View
+                        </button>
                         <button
                           onClick={() => handleApprove(teacher._id)}
                           className="px-3 py-1 bg-green-600 text-white text-xs font-medium rounded hover:bg-green-700 transition-colors"
@@ -378,13 +397,14 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
         title="Add New Teacher"
         size="lg"
       >
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
           <div className="grid grid-cols-2 gap-4">
             <Input
               label="First Name"
               name="firstName"
               value={formData.firstName}
               onChange={handleInputChange}
+              autoComplete="off"
               required
             />
             <Input
@@ -392,6 +412,7 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
               name="lastName"
               value={formData.lastName}
               onChange={handleInputChange}
+              autoComplete="off"
               required
             />
           </div>
@@ -401,6 +422,7 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
             type="email"
             value={formData.email}
             onChange={handleInputChange}
+            autoComplete="new-email"
             required
           />
           <Input
@@ -409,6 +431,7 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
             type="password"
             value={formData.password}
             onChange={handleInputChange}
+            autoComplete="new-password"
             minLength={6}
             helperText="Minimum 6 characters"
             required
@@ -417,8 +440,13 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
             <Input
               label="Phone Number"
               name="phoneNumber"
+              type="tel"
               value={formData.phoneNumber}
               onChange={handleInputChange}
+              autoComplete="off"
+              maxLength={10}
+              pattern="[0-9]{10}"
+              helperText="10 digits required"
               required
             />
             <Input
@@ -427,6 +455,7 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
               type="date"
               value={formData.dateOfBirth}
               onChange={handleInputChange}
+              autoComplete="off"
               required
             />
           </div>
@@ -436,6 +465,7 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
               name="employeeId"
               value={formData.employeeId}
               onChange={handleInputChange}
+              autoComplete="off"
               required
             />
             <Input
@@ -444,6 +474,7 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
               value={formData.designation}
               onChange={handleInputChange}
               placeholder="e.g., Associate Professor"
+              autoComplete="off"
               required
             />
             <Input
@@ -452,6 +483,7 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
               type="date"
               value={formData.joiningDate}
               onChange={handleInputChange}
+              autoComplete="off"
               required
             />
           </div>
@@ -464,6 +496,7 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
                 name="gender"
                 value={formData.gender}
                 onChange={handleInputChange}
+                autoComplete="off"
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
@@ -481,6 +514,7 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
                 name="department"
                 value={formData.department}
                 onChange={handleInputChange}
+                autoComplete="off"
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >

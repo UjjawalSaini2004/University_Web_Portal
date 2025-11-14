@@ -59,7 +59,7 @@ const getSuperAdminStats = async (req, res) => {
   try {
     const totalUsers = await User.countDocuments();
     const totalStudents = await User.countDocuments({ role: ROLES.STUDENT });
-    const totalTeachers = await User.countDocuments({ role: ROLES.TEACHER });
+    const totalTeachers = await User.countDocuments({ role: ROLES.FACULTY });
     const totalAdmins = await User.countDocuments({ role: ROLES.ADMIN });
     const totalSuperAdmins = await User.countDocuments({ role: ROLES.SUPER_ADMIN });
     
@@ -411,6 +411,164 @@ const denyAdmin = async (req, res) => {
 };
 
 /**
+ * Get admin details by ID
+ */
+const getAdminDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const admin = await User.findOne({ _id: id, role: ROLES.ADMIN })
+      .select('-password')
+      .populate('department', 'name code')
+      .populate('verifiedBy', 'firstName lastName email')
+      .populate('approvedBy', 'firstName lastName email');
+
+    if (!admin) {
+      return res.status(404).json({
+        success: false,
+        message: 'Admin not found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: admin,
+    });
+  } catch (error) {
+    logger.error(`Error fetching admin details: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching admin details',
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Delete admin by ID
+ */
+const deleteAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+    logger.info(`Delete admin request received for ID: ${id}`);
+
+    // Find the admin first
+    const admin = await User.findById(id);
+    logger.info(`Admin lookup result: ${admin ? `Found ${admin.role}` : 'Not found'}`);
+
+    if (!admin) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    // Check if the user is an admin
+    if (admin.role !== ROLES.ADMIN) {
+      return res.status(400).json({
+        success: false,
+        message: `Cannot delete user with role: ${admin.role}. Use the appropriate endpoint.`,
+      });
+    }
+
+    // Prevent self-deletion
+    if (admin._id.toString() === req.user._id.toString()) {
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot delete your own account',
+      });
+    }
+
+    // Delete the admin
+    await User.findByIdAndDelete(id);
+    logger.info(`Admin deleted successfully: ${admin.email}`);
+
+    // Log activity
+    await createActivityLog({
+      action: 'ADMIN_DELETED',
+      performedBy: req.user._id,
+      performedByName: req.user.fullName,
+      performedByRole: req.user.role,
+      targetUser: admin._id,
+      targetUserName: admin.fullName,
+      description: `Deleted admin: ${admin.email}`,
+      ipAddress: req.ip,
+      userAgent: req.get('user-agent'),
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'Admin deleted successfully',
+    });
+  } catch (error) {
+    logger.error(`Error deleting admin: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error deleting admin',
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Deactivate admin account
+ */
+const deactivateAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const admin = await User.findOne({ _id: id, role: ROLES.ADMIN });
+
+    if (!admin) {
+      return res.status(404).json({
+        success: false,
+        message: 'Admin not found',
+      });
+    }
+
+    // Prevent self-deactivation
+    if (admin._id.toString() === req.user._id.toString()) {
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot deactivate your own account',
+      });
+    }
+
+    admin.adminStatus = 'deactivated';
+    admin.isActive = false;
+    await admin.save();
+
+    // Log activity
+    await createActivityLog({
+      action: 'ADMIN_DEACTIVATED',
+      performedBy: req.user._id,
+      performedByName: req.user.fullName,
+      performedByRole: req.user.role,
+      targetUser: admin._id,
+      targetUserName: admin.fullName,
+      description: `Deactivated admin: ${admin.email}`,
+      ipAddress: req.ip,
+      userAgent: req.get('user-agent'),
+    });
+
+    logger.info(`Admin deactivated by super admin: ${admin.email}`);
+
+    res.status(200).json({
+      success: true,
+      message: 'Admin deactivated successfully',
+      data: admin,
+    });
+  } catch (error) {
+    logger.error(`Error deactivating admin: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error deactivating admin',
+      error: error.message,
+    });
+  }
+};
+
+/**
  * Delete user (except super admins)
  */
 const deleteUser = async (req, res) => {
@@ -553,7 +711,7 @@ const getAllTeachers = async (req, res) => {
   try {
     const { page = 1, limit = 20, search, department, verified } = req.query;
     
-    const query = { role: ROLES.TEACHER };
+    const query = { role: ROLES.FACULTY };
     if (verified !== undefined) query.isVerified = verified === 'true';
     if (department) query.department = department;
     if (search) {
@@ -646,13 +804,16 @@ const approveTeacher = async (req, res) => {
     const user = new User({
       email: waitlistUser.email,
       password: waitlistUser.password,
-      role: ROLES.TEACHER,
+      role: ROLES.FACULTY,
       firstName: waitlistUser.firstName,
       lastName: waitlistUser.lastName,
       phoneNumber: waitlistUser.phoneNumber,
       dateOfBirth: waitlistUser.dateOfBirth,
       gender: waitlistUser.gender,
       department: waitlistUser.department,
+      designation: waitlistUser.designation,
+      qualification: waitlistUser.qualification,
+      joiningDate: waitlistUser.joiningDate,
       isActive: true,
       isVerified: true,
       verifiedBy: req.user._id,
@@ -749,6 +910,8 @@ const denyTeacher = async (req, res) => {
  */
 const createTeacher = async (req, res) => {
   try {
+    console.log('📝 Received teacher data:', req.body);
+    
     const {
       email,
       password,
@@ -759,9 +922,12 @@ const createTeacher = async (req, res) => {
       gender,
       department,
       employeeId,
+      designation,
       joiningDate,
       qualification,
     } = req.body;
+
+    console.log('✅ Extracted designation:', designation);
 
     // Check for existing email
     const existingUser = await User.findOne({ email });
@@ -786,7 +952,7 @@ const createTeacher = async (req, res) => {
     const teacher = await User.create({
       email,
       password,
-      role: ROLES.TEACHER,
+      role: ROLES.FACULTY,
       firstName,
       lastName,
       phoneNumber,
@@ -794,6 +960,7 @@ const createTeacher = async (req, res) => {
       gender,
       department,
       employeeId,
+      designation,
       joiningDate,
       qualification,
       isActive: true,
@@ -847,7 +1014,7 @@ const updateTeacher = async (req, res) => {
     delete updates.verifiedBy;
 
     const teacher = await User.findOneAndUpdate(
-      { _id: id, role: ROLES.TEACHER },
+      { _id: id, role: ROLES.FACULTY },
       updates,
       { new: true, runValidators: true }
     ).select('-password');
@@ -896,18 +1063,30 @@ const updateTeacher = async (req, res) => {
 const deleteTeacher = async (req, res) => {
   try {
     const { id } = req.params;
+    logger.info(`Delete teacher request received for ID: ${id}`);
 
-    const teacher = await User.findOneAndDelete({
-      _id: id,
-      role: ROLES.TEACHER,
-    });
+    // Find the user first
+    const teacher = await User.findById(id);
+    logger.info(`Teacher lookup result: ${teacher ? `Found ${teacher.role}` : 'Not found'}`);
 
     if (!teacher) {
       return res.status(404).json({
         success: false,
-        message: 'Teacher not found',
+        message: 'User not found',
       });
     }
+
+    // Check if the user is a teacher/faculty
+    if (teacher.role !== ROLES.FACULTY && teacher.role !== ROLES.TEACHER) {
+      return res.status(400).json({
+        success: false,
+        message: `Cannot delete user with role: ${teacher.role}. Use the appropriate endpoint.`,
+      });
+    }
+
+    // Delete the teacher
+    await User.findByIdAndDelete(id);
+    logger.info(`Teacher deleted successfully: ${teacher.email}`);
 
     // Log activity
     await createActivityLog({
@@ -921,8 +1100,6 @@ const deleteTeacher = async (req, res) => {
       ipAddress: req.ip,
       userAgent: req.get('user-agent'),
     });
-
-    logger.info(`Teacher deleted by super admin: ${teacher.email}`);
 
     res.status(200).json({
       success: true,
@@ -982,6 +1159,72 @@ const getAllStudents = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error fetching students',
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Get student details by ID
+ */
+const getStudentDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const student = await User.findOne({ _id: id, role: ROLES.STUDENT })
+      .select('-password')
+      .populate('department', 'name code description')
+      .populate('verifiedBy', 'firstName lastName email');
+
+    if (!student) {
+      return res.status(404).json({
+        success: false,
+        message: 'Student not found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: student,
+    });
+  } catch (error) {
+    logger.error(`Error fetching student details: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching student details',
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Get teacher details by ID
+ */
+const getTeacherDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const teacher = await User.findOne({ _id: id, role: ROLES.FACULTY })
+      .select('-password')
+      .populate('department', 'name code description')
+      .populate('verifiedBy', 'firstName lastName email');
+
+    if (!teacher) {
+      return res.status(404).json({
+        success: false,
+        message: 'Teacher not found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: teacher,
+    });
+  } catch (error) {
+    logger.error(`Error fetching teacher details: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching teacher details',
       error: error.message,
     });
   }
@@ -1048,6 +1291,8 @@ const approveStudent = async (req, res) => {
       dateOfBirth: waitlistUser.dateOfBirth,
       gender: waitlistUser.gender,
       department: waitlistUser.department,
+      semester: waitlistUser.semester,
+      admissionYear: waitlistUser.admissionYear,
       isActive: true,
       isVerified: true,
       verifiedBy: req.user._id,
@@ -1291,18 +1536,30 @@ const updateStudent = async (req, res) => {
 const deleteStudent = async (req, res) => {
   try {
     const { id } = req.params;
+    logger.info(`Delete student request received for ID: ${id}`);
 
-    const student = await User.findOneAndDelete({
-      _id: id,
-      role: ROLES.STUDENT,
-    });
+    // Find the user first
+    const student = await User.findById(id);
+    logger.info(`Student lookup result: ${student ? `Found ${student.role}` : 'Not found'}`);
 
     if (!student) {
       return res.status(404).json({
         success: false,
-        message: 'Student not found',
+        message: 'User not found',
       });
     }
+
+    // Check if the user is a student
+    if (student.role !== ROLES.STUDENT) {
+      return res.status(400).json({
+        success: false,
+        message: `Cannot delete user with role: ${student.role}. Use the appropriate endpoint.`,
+      });
+    }
+
+    // Delete the student
+    await User.findByIdAndDelete(id);
+    logger.info(`Student deleted successfully: ${student.email}`);
 
     // Log activity
     await createActivityLog({
@@ -1316,8 +1573,6 @@ const deleteStudent = async (req, res) => {
       ipAddress: req.ip,
       userAgent: req.get('user-agent'),
     });
-
-    logger.info(`Student deleted by super admin: ${student.email}`);
 
     res.status(200).json({
       success: true,
@@ -1981,6 +2236,144 @@ const getRecentActivitiesController = async (req, res) => {
   }
 };
 
+/**
+ * Get pending admin registrations
+ */
+const getPendingAdminRegistrations = async (req, res) => {
+  try {
+    const pendingAdmins = await User.find({
+      role: ROLES.ADMIN,
+      adminStatus: 'pending',
+    })
+      .select('-password')
+      .sort({ createdAt: -1 });
+
+    logger.info(`Fetched ${pendingAdmins.length} pending admin registrations`);
+    console.log('📋 Pending admin registrations:', pendingAdmins.map(a => ({ 
+      id: a._id, 
+      email: a.email, 
+      name: `${a.firstName} ${a.lastName}`,
+      status: a.adminStatus 
+    })));
+
+    res.status(200).json({
+      success: true,
+      data: pendingAdmins,
+    });
+  } catch (error) {
+    logger.error(`Error fetching pending admin registrations: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching pending admin registrations',
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Approve admin registration
+ */
+const approveAdminRegistration = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const admin = await User.findOne({
+      _id: id,
+      role: ROLES.ADMIN,
+      adminStatus: 'pending',
+    });
+
+    if (!admin) {
+      return res.status(404).json({
+        success: false,
+        message: 'Pending admin registration not found',
+      });
+    }
+
+    // Update admin status
+    admin.adminStatus = 'approved';
+    admin.approvedBy = req.user._id;
+    admin.approvedAt = new Date();
+    admin.isActive = true;
+    admin.isVerified = true;
+    admin.verifiedBy = req.user._id;
+    admin.verifiedAt = new Date();
+    await admin.save();
+
+    // Log activity
+    await createActivityLog({
+      user: req.user._id,
+      action: 'approve_admin_registration',
+      resource: 'User',
+      resourceId: admin._id,
+      details: `Approved admin registration for ${admin.email}`,
+    });
+
+    logger.info(`Admin registration approved: ${admin.email} by ${req.user.email}`);
+
+    res.status(200).json({
+      success: true,
+      message: 'Admin registration approved successfully',
+      data: admin,
+    });
+  } catch (error) {
+    logger.error(`Error approving admin registration: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error approving admin registration',
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Reject admin registration
+ */
+const rejectAdminRegistration = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const admin = await User.findOne({
+      _id: id,
+      role: ROLES.ADMIN,
+      adminStatus: 'pending',
+    });
+
+    if (!admin) {
+      return res.status(404).json({
+        success: false,
+        message: 'Pending admin registration not found',
+      });
+    }
+
+    // Delete the pending admin record
+    await User.findByIdAndDelete(id);
+
+    // Log activity
+    await createActivityLog({
+      user: req.user._id,
+      action: 'reject_admin_registration',
+      resource: 'User',
+      resourceId: admin._id,
+      details: `Rejected admin registration for ${admin.email}`,
+    });
+
+    logger.info(`Admin registration rejected: ${admin.email} by ${req.user.email}`);
+
+    res.status(200).json({
+      success: true,
+      message: 'Admin registration rejected successfully',
+    });
+  } catch (error) {
+    logger.error(`Error rejecting admin registration: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error rejecting admin registration',
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getSuperAdminStats,
@@ -1989,11 +2382,19 @@ module.exports = {
   getPendingAdmins,
   approveAdmin,
   denyAdmin,
+  getAdminDetails,
+  deleteAdmin,
+  deactivateAdmin,
   deleteUser,
   updateUserRole,
+  // Admin Registration Approval
+  getPendingAdminRegistrations,
+  approveAdminRegistration,
+  rejectAdminRegistration,
   // Teacher Management
   getAllTeachers,
   getPendingTeachers,
+  getTeacherDetails,
   approveTeacher,
   denyTeacher,
   createTeacher,
@@ -2001,6 +2402,7 @@ module.exports = {
   deleteTeacher,
   // Student Management
   getAllStudents,
+  getStudentDetails,
   getPendingStudents,
   approveStudent,
   denyStudent,

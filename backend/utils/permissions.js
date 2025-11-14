@@ -19,7 +19,7 @@ const PERMISSIONS = {
     teachers: ['create', 'read', 'update', 'delete'],
     admins: [], // NO access to admins
     departments: ['read'], // Read-only
-    courses: ['read'], // Read-only
+    courses: ['create', 'read', 'update', 'delete'], // Full course management
     users: ['read'], // Can only read users, not manage admins
     settings: [], // NO access
     system: [] // NO access

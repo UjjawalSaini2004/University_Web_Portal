@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import superAdminService from '../../../services/superAdminService';
 import Badge from '../../common/Badge';
 import Modal from '../../common/Modal';
@@ -6,6 +7,7 @@ import Input from '../../common/Input';
 import Button from '../../common/Button';
 
 const AdminCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) => {
+  const navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(false);
   const [admins, setAdmins] = useState([]);
   const [pendingAdmins, setPendingAdmins] = useState([]);
@@ -63,6 +65,7 @@ const AdminCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) => 
       if (result.success) {
         fetchAdminData();
         onRefresh();
+        alert('Admin approved successfully!');
       }
     } catch (error) {
       console.error('Error approving admin:', error);
@@ -79,10 +82,47 @@ const AdminCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) => 
       if (result.success) {
         fetchAdminData();
         onRefresh();
+        alert('Admin denied successfully!');
       }
     } catch (error) {
       console.error('Error denying admin:', error);
       alert('Failed to deny admin');
+    }
+  };
+
+  const handleDelete = async (adminId) => {
+    if (!window.confirm('Are you sure you want to permanently delete this admin? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      const result = await superAdminService.deleteAdmin(adminId);
+      if (result.success) {
+        fetchAdminData();
+        onRefresh();
+        alert('Admin deleted successfully!');
+      }
+    } catch (error) {
+      console.error('Error deleting admin:', error);
+      alert('Failed to delete admin: ' + (error.response?.data?.message || error.message));
+    }
+  };
+
+  const handleDeactivate = async (adminId) => {
+    if (!window.confirm('Are you sure you want to deactivate this admin account? They will not be able to login until reactivated.')) {
+      return;
+    }
+
+    try {
+      const result = await superAdminService.deactivateAdmin(adminId);
+      if (result.success) {
+        fetchAdminData();
+        onRefresh();
+        alert('Admin deactivated successfully!');
+      }
+    } catch (error) {
+      console.error('Error deactivating admin:', error);
+      alert('Failed to deactivate admin: ' + (error.response?.data?.message || error.message));
     }
   };
 
@@ -222,6 +262,7 @@ const AdminCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) => 
                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Department</th>
                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                        <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -233,9 +274,40 @@ const AdminCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) => 
                           <td className="px-4 py-3 text-sm text-gray-600">{admin.email}</td>
                           <td className="px-4 py-3 text-sm text-gray-600">{admin.department?.name || 'N/A'}</td>
                           <td className="px-4 py-3">
-                            <Badge variant={admin.isActive ? 'success' : 'danger'}>
-                              {admin.isActive ? 'Active' : 'Inactive'}
+                            <Badge variant={admin.adminStatus === 'deactivated' ? 'danger' : admin.isActive ? 'success' : 'danger'}>
+                              {admin.adminStatus === 'deactivated' ? 'Deactivated' : admin.isActive ? 'Active' : 'Inactive'}
                             </Badge>
+                          </td>
+                          <td className="px-4 py-3 text-right">
+                            <div className="flex items-center justify-end space-x-2">
+                              <button
+                                onClick={() => navigate(`/superadmin/admins/${admin._id}`)}
+                                className="text-indigo-600 hover:text-indigo-800 font-medium text-xs"
+                                title="View details"
+                              >
+                                View
+                              </button>
+                              {admin.adminStatus !== 'deactivated' && (
+                                <>
+                                  <span className="text-gray-300">|</span>
+                                  <button
+                                    onClick={() => handleDeactivate(admin._id)}
+                                    className="text-orange-600 hover:text-orange-800 font-medium text-xs"
+                                    title="Deactivate admin"
+                                  >
+                                    Deactivate
+                                  </button>
+                                </>
+                              )}
+                              <span className="text-gray-300">|</span>
+                              <button
+                                onClick={() => handleDelete(admin._id)}
+                                className="text-red-600 hover:text-red-800 font-medium text-xs"
+                                title="Delete admin"
+                              >
+                                Delete
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       ))}
@@ -277,6 +349,12 @@ const AdminCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) => 
                         </p>
                       </div>
                       <div className="flex items-center space-x-2">
+                        <button
+                          onClick={() => navigate(`/superadmin/admins/pending/${admin._id}`)}
+                          className="px-3 py-1 bg-indigo-600 text-white text-xs font-medium rounded hover:bg-indigo-700 transition-colors"
+                        >
+                          View
+                        </button>
                         <button
                           onClick={() => handleApprove(admin._id)}
                           className="px-3 py-1 bg-green-600 text-white text-xs font-medium rounded hover:bg-green-700 transition-colors"
@@ -329,13 +407,14 @@ const AdminCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) => 
         title="Add New Admin"
         size="lg"
       >
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
           <div className="grid grid-cols-2 gap-4">
             <Input
               label="First Name"
               name="firstName"
               value={formData.firstName}
               onChange={handleInputChange}
+              autoComplete="off"
               required
             />
             <Input
@@ -343,6 +422,7 @@ const AdminCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) => 
               name="lastName"
               value={formData.lastName}
               onChange={handleInputChange}
+              autoComplete="off"
               required
             />
           </div>
@@ -352,6 +432,7 @@ const AdminCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) => 
             type="email"
             value={formData.email}
             onChange={handleInputChange}
+            autoComplete="new-email"
             required
           />
           <Input
@@ -360,6 +441,7 @@ const AdminCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) => 
             type="password"
             value={formData.password}
             onChange={handleInputChange}
+            autoComplete="new-password"
             minLength={6}
             helperText="Minimum 6 characters"
             required
@@ -368,8 +450,13 @@ const AdminCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) => 
             <Input
               label="Phone Number"
               name="phoneNumber"
+              type="tel"
               value={formData.phoneNumber}
               onChange={handleInputChange}
+              autoComplete="off"
+              maxLength={10}
+              pattern="[0-9]{10}"
+              helperText="10 digits required"
               required
             />
             <Input
@@ -378,6 +465,7 @@ const AdminCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) => 
               type="date"
               value={formData.dateOfBirth}
               onChange={handleInputChange}
+              autoComplete="off"
               required
             />
           </div>
@@ -389,6 +477,7 @@ const AdminCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) => 
               name="gender"
               value={formData.gender}
               onChange={handleInputChange}
+              autoComplete="off"
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
@@ -403,6 +492,7 @@ const AdminCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) => 
             name="address"
             value={formData.address}
             onChange={handleInputChange}
+            autoComplete="off"
           />
           <div className="flex justify-end space-x-3 pt-4">
             <Button

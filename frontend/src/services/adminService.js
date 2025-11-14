@@ -65,6 +65,11 @@ const adminService = {
     return response.data;
   },
 
+  addDepartment: async (data) => {
+    const response = await api.post('/admin/departments', data);
+    return response.data;
+  },
+
   createDepartment: async (data) => {
     const response = await api.post('/admin/departments', data);
     return response.data;
@@ -83,6 +88,11 @@ const adminService = {
   // Course management
   getCourses: async (params) => {
     const response = await api.get('/admin/courses', { params });
+    return response.data;
+  },
+
+  addCourse: async (data) => {
+    const response = await api.post('/admin/courses', data);
     return response.data;
   },
 

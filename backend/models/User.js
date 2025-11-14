@@ -129,6 +129,26 @@ const userSchema = new mongoose.Schema({
   verifiedAt: {
     type: Date,
   },
+  
+  // Admin approval fields
+  adminStatus: {
+    type: String,
+    enum: ['pending', 'approved', 'rejected', 'deactivated'],
+    default: function() {
+      // Only set pending for new admin registrations (not verified yet)
+      if (this.role === ROLES.ADMIN && !this.isVerified) {
+        return 'pending';
+      }
+      return 'approved';
+    },
+  },
+  approvedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  approvedAt: {
+    type: Date,
+  },
   isEmailVerified: {
     type: Boolean,
     default: false,

@@ -8,6 +8,87 @@ const logger = require('../utils/logger');
 const crypto = require('crypto');
 
 /**
+ * @desc    Register admin (pending approval)
+ * @route   POST /api/auth/register-admin
+ * @access  Public
+ */
+const registerAdmin = async (req, res) => {
+  try {
+    const { name, email, password, confirmPassword } = req.body;
+
+    // Validate input
+    if (!name || !email || !password || !confirmPassword) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide all required fields.',
+      });
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(400).json({
+        success: false,
+        message: 'Passwords do not match.',
+      });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: 'Password must be at least 6 characters long.',
+      });
+    }
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: 'User with this email already exists.',
+      });
+    }
+
+    // Split name into firstName and lastName
+    const nameParts = name.trim().split(' ');
+    const firstName = nameParts[0];
+    const lastName = nameParts.slice(1).join(' ') || nameParts[0];
+
+    // Create admin user with pending status
+    const adminUser = await User.create({
+      email,
+      password,
+      role: ROLES.ADMIN,
+      firstName,
+      lastName,
+      phoneNumber: '0000000000', // Placeholder
+      dateOfBirth: new Date('2000-01-01'), // Placeholder
+      gender: 'other',
+      adminStatus: 'pending',
+      isActive: false, // Inactive until approved
+      isVerified: false,
+    });
+
+    logger.info(`New admin registration pending approval: ${adminUser.email}`);
+
+    res.status(201).json({
+      success: true,
+      message: 'Your admin request has been submitted. Please wait for Super Admin approval.',
+      data: {
+        email: adminUser.email,
+        name: adminUser.fullName,
+        status: 'pending',
+      },
+    });
+  } catch (error) {
+    logger.error(`Admin registration error: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error during admin registration.',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+    });
+  }
+};
+
+/**
  * @desc    Register new user (add to waitlist for approval)
  * @route   POST /api/auth/register
  * @access  Public
@@ -173,6 +254,28 @@ const login = async (req, res) => {
         success: false,
         message: 'Your account is not verified. Please wait for admin approval.',
       });
+    }
+
+    // Check admin approval status (only for newly registered admins)
+    if (user.role === ROLES.ADMIN && user.adminStatus) {
+      if (user.adminStatus === 'pending') {
+        return res.status(403).json({
+          success: false,
+          message: 'Your admin account is awaiting Super Admin approval.',
+        });
+      }
+      if (user.adminStatus === 'rejected') {
+        return res.status(403).json({
+          success: false,
+          message: 'Your admin registration request was rejected.',
+        });
+      }
+      if (user.adminStatus === 'deactivated') {
+        return res.status(403).json({
+          success: false,
+          message: 'Your admin account has been deactivated. Please contact Super Admin.',
+        });
+      }
     }
 
     // Check if account is active
@@ -431,6 +534,7 @@ const updatePassword = async (req, res) => {
 
 module.exports = {
   register,
+  registerAdmin,
   login,
   getMe,
   forgotPassword,

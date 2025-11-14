@@ -47,9 +47,24 @@ const Register = () => {
   };
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+    
+    // Special handling for phone number - only allow exactly 10 digits
+    if (name === 'phoneNumber') {
+      // Remove all non-digit characters
+      const digitsOnly = value.replace(/\D/g, '');
+      // Limit to 10 digits
+      const limitedDigits = digitsOnly.slice(0, 10);
+      setFormData({
+        ...formData,
+        [name]: limitedDigits,
+      });
+      return;
+    }
+    
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -69,6 +84,12 @@ const Register = () => {
 
     if (!formData.department) {
       toast.error('Please select a department');
+      return;
+    }
+
+    // Validate phone number - must be exactly 10 digits
+    if (formData.phoneNumber.length !== 10) {
+      toast.error('Mobile number must be exactly 10 digits');
       return;
     }
 
@@ -294,7 +315,7 @@ const Register = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="phoneNumber" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Phone Number
+                  Phone Number (10 digits)
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -307,10 +328,22 @@ const Register = () => {
                     required
                     value={formData.phoneNumber}
                     onChange={handleChange}
+                    maxLength={10}
+                    pattern="[0-9]{10}"
                     className="block w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
-                    placeholder="+91-9876543210"
+                    placeholder="9876543210"
                   />
                 </div>
+                {formData.phoneNumber && formData.phoneNumber.length < 10 && (
+                  <p className="text-xs text-red-500 mt-1">
+                    {10 - formData.phoneNumber.length} more digit(s) required
+                  </p>
+                )}
+                {formData.phoneNumber && formData.phoneNumber.length === 10 && (
+                  <p className="text-xs text-green-500 mt-1">
+                    ✓ Valid mobile number
+                  </p>
+                )}
               </div>
 
               <div>

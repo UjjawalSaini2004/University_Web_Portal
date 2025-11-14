@@ -177,6 +177,15 @@ const Login = () => {
             </Link>
           </p>
           <p className="text-sm text-gray-600">
+            Want to be an admin?{' '}
+            <Link 
+              to="/register-admin" 
+              className="font-semibold text-primary-600 hover:text-primary-700 transition-colors"
+            >
+              Register as Admin
+            </Link>
+          </p>
+          <p className="text-sm text-gray-600">
             Need assistance?{' '}
             <a href="#" className="font-medium text-primary-600 hover:text-primary-700 transition-colors">
               Contact administrator

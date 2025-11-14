@@ -280,3 +280,225 @@
 {"level":"info","message":"Student deleted by super admin: demo2@gmail.edu","service":"university-portal","timestamp":"2025-11-14 13:07:43"}
 {"level":"info","message":"Student created by super admin: keshav@gmail.com","service":"university-portal","timestamp":"2025-11-14 13:08:49"}
 {"level":"info","message":"Student updated by admin: 6916dc897b077c382d638b4f","service":"university-portal","timestamp":"2025-11-14 13:09:09"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 13:34:45"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 13:34:45"}
+{"level":"info","message":"Student updated by admin: 6916dc897b077c382d638b4f","service":"university-portal","timestamp":"2025-11-14 13:38:21"}
+{"level":"info","message":"Faculty deactivated by admin: 6916b935d6a299cd3a14d584","service":"university-portal","timestamp":"2025-11-14 13:38:42"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 13:47:51"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 13:47:51"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 13:48:51"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 13:49:49"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 13:49:49"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 13:57:21"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 13:57:21"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 13:57:50"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 13:57:50"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 13:57:58"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 13:57:58"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 13:58:05"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 13:58:05"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 13:58:14"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 13:58:14"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 13:58:21"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 13:58:21"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 13:59:03"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 13:59:03"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 13:59:10"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 13:59:10"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 13:59:19"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 13:59:19"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 13:59:28"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 13:59:28"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 14:05:10"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 14:05:10"}
+{"level":"info","message":"New admin registration pending approval: demoadmin@gmail.com","service":"university-portal","timestamp":"2025-11-14 14:06:24"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 14:07:00"}
+{"level":"warn","message":"MongoDB disconnected","service":"university-portal","timestamp":"2025-11-14 14:10:30"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 14:10:49"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 14:10:49"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 14:12:18"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 14:12:18"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 14:13:23"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 14:13:23"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 14:13:38"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 14:15:03"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 14:27:57"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 14:27:57"}
+{"level":"warn","message":"MongoDB disconnected","service":"university-portal","timestamp":"2025-11-14 14:28:15"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 14:35:45"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 14:35:45"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 14:35:50"}
+{"level":"info","message":"New admin registration pending approval: demoadmin2@gmail.com","service":"university-portal","timestamp":"2025-11-14 14:37:00"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 14:42:54"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 14:42:54"}
+{"level":"warn","message":"MongoDB disconnected","service":"university-portal","timestamp":"2025-11-14 14:43:13"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 14:46:40"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 14:46:40"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 14:46:43"}
+{"level":"info","message":"Fetched 2 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:47:02"}
+{"level":"info","message":"Fetched 2 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:47:02"}
+{"level":"info","message":"Fetched 2 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:47:07"}
+{"level":"info","message":"Fetched 2 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:47:07"}
+{"level":"info","message":"Fetched 2 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:47:08"}
+{"level":"info","message":"Fetched 2 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:47:08"}
+{"level":"info","message":"Fetched 2 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:47:18"}
+{"level":"info","message":"Fetched 2 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:47:18"}
+{"level":"info","message":"Fetched 2 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:48:00"}
+{"level":"info","message":"Fetched 2 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:48:00"}
+{"level":"info","message":"Fetched 2 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:48:50"}
+{"level":"info","message":"Fetched 2 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:48:59"}
+{"level":"info","message":"Fetched 2 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:49:02"}
+{"level":"info","message":"Fetched 2 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:49:02"}
+{"level":"info","message":"New admin registration pending approval: demoadmin6@gmail.com","service":"university-portal","timestamp":"2025-11-14 14:50:19"}
+{"level":"info","message":"Fetched 3 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:50:23"}
+{"level":"info","message":"Fetched 3 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:50:23"}
+{"level":"info","message":"Fetched 3 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:50:25"}
+{"level":"info","message":"Fetched 3 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:50:25"}
+{"level":"info","message":"Fetched 3 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:51:01"}
+{"level":"info","message":"Fetched 3 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:51:29"}
+{"level":"info","message":"Fetched 3 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:51:32"}
+{"level":"info","message":"Fetched 3 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:51:32"}
+{"level":"info","message":"Fetched 3 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:52:07"}
+{"level":"info","message":"Fetched 3 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:52:22"}
+{"level":"info","message":"Fetched 3 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:52:27"}
+{"level":"info","message":"Fetched 3 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:52:27"}
+{"level":"info","message":"Admin registration rejected: demoadmin6@gmail.com by ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 14:52:31"}
+{"level":"info","message":"Fetched 2 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:52:31"}
+{"level":"info","message":"Admin registration rejected: demoadmin2@gmail.com by ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 14:52:36"}
+{"level":"info","message":"Fetched 1 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:52:36"}
+{"level":"info","message":"Admin registration rejected: demoadmin@gmail.com by ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 14:52:41"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:52:41"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:52:44"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:52:44"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:53:27"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:53:27"}
+{"level":"info","message":"New admin registration pending approval: demoadmin@gmail.com","service":"university-portal","timestamp":"2025-11-14 14:53:29"}
+{"level":"info","message":"Fetched 1 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:53:34"}
+{"level":"info","message":"Fetched 1 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:53:34"}
+{"level":"info","message":"Admin registration rejected: demoadmin@gmail.com by ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 14:53:38"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:53:38"}
+{"level":"info","message":"New admin registration pending approval: demo2@gmail.com","service":"university-portal","timestamp":"2025-11-14 14:54:28"}
+{"level":"info","message":"Fetched 1 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:54:28"}
+{"level":"info","message":"Fetched 1 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:54:52"}
+{"level":"info","message":"Fetched 1 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:55:06"}
+{"level":"info","message":"Fetched 1 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:55:18"}
+{"level":"info","message":"Fetched 1 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:55:35"}
+{"level":"info","message":"Fetched 1 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:55:37"}
+{"level":"info","message":"Fetched 1 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:55:37"}
+{"level":"info","message":"Admin registration approved: demo2@gmail.com by ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 14:56:05"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 14:56:05"}
+{"level":"info","message":"User logged in: demo2@gmail.com","service":"university-portal","timestamp":"2025-11-14 14:56:16"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 14:56:48"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 15:01:45"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 15:01:45"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 15:02:15"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 15:02:26"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 15:05:06"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 15:05:35"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 15:05:42"}
+{"level":"info","message":"New admin registration pending approval: demo3@gmail.com","service":"university-portal","timestamp":"2025-11-14 15:07:33"}
+{"level":"info","message":"Fetched 1 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 15:07:38"}
+{"level":"info","message":"Admin registration approved: demo3@gmail.com by ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 15:07:56"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 15:07:56"}
+{"level":"info","message":"Student deleted by super admin: demo@1university.edu","service":"university-portal","timestamp":"2025-11-14 15:09:06"}
+{"level":"info","message":"Student deleted by super admin: keshav@gmail.com","service":"university-portal","timestamp":"2025-11-14 15:09:12"}
+{"level":"info","message":"New user added to waitlist: demostudent@gmail.com (student)","service":"university-portal","timestamp":"2025-11-14 15:11:07"}
+{"level":"error","message":"Error approving student: User validation failed: admissionYear: Path `admissionYear` is required., semester: Path `semester` is required.","service":"university-portal","timestamp":"2025-11-14 15:11:47"}
+{"level":"error","message":"Error approving student: User validation failed: admissionYear: Path `admissionYear` is required., semester: Path `semester` is required.","service":"university-portal","timestamp":"2025-11-14 15:12:04"}
+{"level":"info","message":"Teacher deleted by super admin: robert.johnson@university.edu","service":"university-portal","timestamp":"2025-11-14 15:12:15"}
+{"level":"info","message":"Teacher deleted by super admin: jane.smith@university.edu","service":"university-portal","timestamp":"2025-11-14 15:12:23"}
+{"level":"info","message":"Teacher deleted by super admin: john.doe@university.edu","service":"university-portal","timestamp":"2025-11-14 15:12:27"}
+{"level":"info","message":"New user added to waitlist: demoteacher@gmail.com (teacher)","service":"university-portal","timestamp":"2025-11-14 15:13:39"}
+{"level":"error","message":"Error approving teacher: User validation failed: joiningDate: Path `joiningDate` is required., qualification: Path `qualification` is required., designation: Path `designation` is required.","service":"university-portal","timestamp":"2025-11-14 15:13:53"}
+{"level":"info","message":"Teacher denied by super admin: demoteacher@gmail.com","service":"university-portal","timestamp":"2025-11-14 15:14:23"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 15:14:32"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 15:20:49"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 15:22:56"}
+{"level":"info","message":"New admin registration pending approval: demo4@gmail.com","service":"university-portal","timestamp":"2025-11-14 15:31:32"}
+{"level":"info","message":"Fetched 1 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 15:31:38"}
+{"level":"info","message":"Admin registration approved: demo4@gmail.com by ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 15:31:46"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 15:31:46"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 15:32:26"}
+{"level":"error","message":"Error: Not Found - /api/superadmin/admins/6916fdfc11fbfd0a6a213ced","method":"DELETE","service":"university-portal","stack":"Error: Not Found - /api/superadmin/admins/6916fdfc11fbfd0a6a213ced\n    at notFound (D:\\B.Tech Major Project\\backend\\middleware\\errorHandler.js:58:17)\n    at Layer.handle [as handle_request] (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:286:9\n    at router.process_params (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at isSuperAdmin (D:\\B.Tech Major Project\\backend\\middleware\\roleMiddleware.js:8:12)\n    at Layer.handle [as handle_request] (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\layer.js:95:5)","timestamp":"2025-11-14 15:46:56","url":"/api/superadmin/admins/6916fdfc11fbfd0a6a213ced"}
+{"level":"error","message":"Error: Not Found - /api/superadmin/admins/6916fdfc11fbfd0a6a213ced","method":"DELETE","service":"university-portal","stack":"Error: Not Found - /api/superadmin/admins/6916fdfc11fbfd0a6a213ced\n    at notFound (D:\\B.Tech Major Project\\backend\\middleware\\errorHandler.js:58:17)\n    at Layer.handle [as handle_request] (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:286:9\n    at router.process_params (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at isSuperAdmin (D:\\B.Tech Major Project\\backend\\middleware\\roleMiddleware.js:8:12)\n    at Layer.handle [as handle_request] (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\layer.js:95:5)","timestamp":"2025-11-14 15:53:53","url":"/api/superadmin/admins/6916fdfc11fbfd0a6a213ced"}
+{"level":"error","message":"Error: Not Found - /api/superadmin/admins/6916fdfc11fbfd0a6a213ced","method":"DELETE","service":"university-portal","stack":"Error: Not Found - /api/superadmin/admins/6916fdfc11fbfd0a6a213ced\n    at notFound (D:\\B.Tech Major Project\\backend\\middleware\\errorHandler.js:58:17)\n    at Layer.handle [as handle_request] (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:286:9\n    at router.process_params (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at isSuperAdmin (D:\\B.Tech Major Project\\backend\\middleware\\roleMiddleware.js:8:12)\n    at Layer.handle [as handle_request] (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\layer.js:95:5)","timestamp":"2025-11-14 15:54:11","url":"/api/superadmin/admins/6916fdfc11fbfd0a6a213ced"}
+{"level":"warn","message":"MongoDB disconnected","service":"university-portal","timestamp":"2025-11-14 15:55:04"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 16:00:15"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 16:00:16"}
+{"level":"info","message":"Delete admin request received for ID: 6916fdfc11fbfd0a6a213ced","service":"university-portal","timestamp":"2025-11-14 16:00:59"}
+{"level":"info","message":"Admin lookup result: Found admin","service":"university-portal","timestamp":"2025-11-14 16:00:59"}
+{"level":"info","message":"Admin deleted successfully: demo4@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:00:59"}
+{"level":"info","message":"User logged in: demo2@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:01:43"}
+{"level":"info","message":"Delete admin request received for ID: 6916f54c11fbfd0a6a213a1c","service":"university-portal","timestamp":"2025-11-14 16:01:51"}
+{"level":"info","message":"Admin lookup result: Found admin","service":"university-portal","timestamp":"2025-11-14 16:01:51"}
+{"level":"info","message":"Admin deleted successfully: demo2@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:01:51"}
+{"level":"info","message":"Admin deactivated by super admin: demo3@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:02:37"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 16:02:43"}
+{"level":"info","message":"Student denied by super admin: demostudent@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:04:10"}
+{"level":"info","message":"New user added to waitlist: demostudent1@gmail.com (student)","service":"university-portal","timestamp":"2025-11-14 16:05:08"}
+{"level":"error","message":"Error approving student: User validation failed: admissionYear: Path `admissionYear` is required., semester: Path `semester` is required.","service":"university-portal","timestamp":"2025-11-14 16:05:17"}
+{"level":"error","message":"Error approving student: User validation failed: admissionYear: Path `admissionYear` is required., semester: Path `semester` is required.","service":"university-portal","timestamp":"2025-11-14 16:05:21"}
+{"level":"error","message":"Error approving student: User validation failed: admissionYear: Path `admissionYear` is required., semester: Path `semester` is required.","service":"university-portal","timestamp":"2025-11-14 16:05:31"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 16:08:32"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 16:08:32"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 16:08:57"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 16:08:57"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 16:10:50"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 16:10:50"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 16:10:53"}
+{"level":"info","message":"Student approved by super admin: demostudent1@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:11:01"}
+{"level":"info","message":"User logged in: demostudent1@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:11:26"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:11:54"}
+{"level":"info","message":"Delete student request received for ID: 6917073d5b8c6c8a53eee7d1","service":"university-portal","timestamp":"2025-11-14 16:12:01"}
+{"level":"info","message":"Student lookup result: Found student","service":"university-portal","timestamp":"2025-11-14 16:12:01"}
+{"level":"info","message":"Student deleted successfully: demostudent1@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:12:01"}
+{"level":"info","message":"New user added to waitlist: demostudent5@gmail.com (student)","service":"university-portal","timestamp":"2025-11-14 16:12:57"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:15:59"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:16:19"}
+{"level":"info","message":"Student approved by super admin: demostudent5@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:16:24"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:16:36"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:19:32"}
+{"level":"info","message":"Delete student request received for ID: 691708805b8c6c8a53eee90b","service":"university-portal","timestamp":"2025-11-14 16:23:00"}
+{"level":"info","message":"Student lookup result: Found student","service":"university-portal","timestamp":"2025-11-14 16:23:00"}
+{"level":"info","message":"Student deleted successfully: demostudent5@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:23:00"}
+{"level":"info","message":"Student created by super admin: demostudent@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:24:07"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 16:25:41"}
+{"level":"error","message":"Error creating teacher: User validation failed: designation: Path `designation` is required.","service":"university-portal","timestamp":"2025-11-14 16:31:54"}
+{"level":"error","message":"Error creating teacher: User validation failed: designation: Path `designation` is required.","service":"university-portal","timestamp":"2025-11-14 16:31:58"}
+{"level":"error","message":"Error creating teacher: User validation failed: designation: Path `designation` is required.","service":"university-portal","timestamp":"2025-11-14 16:32:04"}
+{"level":"error","message":"Error creating teacher: User validation failed: designation: Path `designation` is required.","service":"university-portal","timestamp":"2025-11-14 16:33:13"}
+{"level":"error","message":"Error creating teacher: User validation failed: designation: Path `designation` is required.","service":"university-portal","timestamp":"2025-11-14 16:34:19"}
+{"level":"error","message":"Error creating teacher: User validation failed: designation: Path `designation` is required.","service":"university-portal","timestamp":"2025-11-14 16:36:01"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 16:36:16"}
+{"level":"error","message":"Error creating teacher: User validation failed: designation: Path `designation` is required.","service":"university-portal","timestamp":"2025-11-14 16:36:51"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 16:37:23"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 16:37:23"}
+{"level":"info","message":"Teacher created by super admin: demoteacher1@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:37:48"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 16:42:43"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 16:42:43"}
+{"createdBy":"ujjawalsaini2004@gmail.com","level":"info","message":"Admin created by super admin: demoadmin2@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:46:29"}
+{"level":"info","message":"User logged in: demoadmin2@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:47:00"}
+{"level":"info","message":"Admin deactivated by super admin: demoadmin2@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:47:06"}
+{"level":"info","message":"Delete admin request received for ID: 69170f8d0e4bc76ca9c38c81","service":"university-portal","timestamp":"2025-11-14 16:47:28"}
+{"level":"info","message":"Admin lookup result: Found admin","service":"university-portal","timestamp":"2025-11-14 16:47:28"}
+{"level":"info","message":"Admin deleted successfully: demoadmin2@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:47:28"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 16:47:40"}
+{"level":"info","message":"New admin registration pending approval: demoadmin2@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:48:03"}
+{"level":"info","message":"Fetched 1 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 16:48:08"}
+{"level":"info","message":"Admin registration approved: demoadmin2@gmail.com by ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:48:15"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-14 16:48:15"}
+{"level":"info","message":"User logged in: demoadmin2@gmail.com","service":"university-portal","timestamp":"2025-11-14 16:48:56"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 16:53:49"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 16:53:49"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 17:17:21"}
+{"level":"info","message":"Student updated by admin: 69170a4f5b8c6c8a53eeea83","service":"university-portal","timestamp":"2025-11-14 17:17:32"}
+{"level":"warn","message":"Permission denied: admin attempted create on courses","service":"university-portal","timestamp":"2025-11-14 17:18:20"}
+{"level":"warn","message":"Permission denied: admin attempted create on courses","service":"university-portal","timestamp":"2025-11-14 17:18:22"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 17:19:22"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 17:19:22"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 17:20:02"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 17:20:02"}
+{"level":"error","message":"Create course error: Course validation failed: academicYear: Academic year is required","service":"university-portal","timestamp":"2025-11-14 17:22:33"}
+{"level":"error","message":"Create course error: Course validation failed: academicYear: Academic year is required","service":"university-portal","timestamp":"2025-11-14 17:22:39"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 17:23:19"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 17:23:19"}

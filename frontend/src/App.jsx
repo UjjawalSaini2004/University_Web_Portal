@@ -9,6 +9,7 @@ import { ROUTES, ROLES } from './utils/constants';
 // Auth Components
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import AdminRegister from './components/auth/AdminRegister';
 
 // Student Components
 import StudentDashboard from './components/student/Dashboard';
@@ -40,12 +41,18 @@ import AdminCourses from './components/admin/Courses';
 import AdminTimetable from './components/admin/Timetable';
 import AdminCertificates from './components/admin/Certificates';
 import AdminAnalytics from './components/admin/Analytics';
-import AdminWaitlist from './components/admin/Waitlist';
 
 // Super Admin Components
 import SuperAdminDashboard from './components/superadmin/Dashboard';
 import AdminManagement from './components/superadmin/AdminManagement';
 import TeacherManagement from './components/superadmin/TeacherManagement';
+import AdminApprovals from './components/superadmin/AdminApprovals';
+import StudentDetails from './components/superadmin/StudentDetails';
+import PendingStudentDetails from './components/superadmin/PendingStudentDetails';
+import TeacherDetails from './components/superadmin/TeacherDetails';
+import PendingTeacherDetails from './components/superadmin/PendingTeacherDetails';
+import AdminDetails from './components/superadmin/AdminDetails';
+import PendingAdminDetails from './components/superadmin/PendingAdminDetails';
 
 function App() {
   return (
@@ -55,6 +62,7 @@ function App() {
           {/* Public Routes */}
           <Route path={ROUTES.LOGIN} element={<Login />} />
           <Route path={ROUTES.REGISTER} element={<Register />} />
+          <Route path="/register-admin" element={<AdminRegister />} />
           <Route path={ROUTES.HOME} element={<Navigate to={ROUTES.LOGIN} replace />} />
 
           {/* Student Routes */}
@@ -233,10 +241,66 @@ function App() {
             }
           />
           <Route
+            path="/superadmin/admin-approvals"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.SUPER_ADMIN]}>
+                <AdminApprovals />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/superadmin/students"
             element={
               <ProtectedRoute allowedRoles={[ROLES.SUPER_ADMIN]}>
                 <AdminStudents />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superadmin/students/:id"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.SUPER_ADMIN]}>
+                <StudentDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superadmin/students/pending/:id"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.SUPER_ADMIN]}>
+                <PendingStudentDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superadmin/teachers/:id"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.SUPER_ADMIN]}>
+                <TeacherDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superadmin/teachers/pending/:id"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.SUPER_ADMIN]}>
+                <PendingTeacherDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superadmin/admins/:id"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.SUPER_ADMIN]}>
+                <AdminDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superadmin/admins/pending/:id"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.SUPER_ADMIN]}>
+                <PendingAdminDetails />
               </ProtectedRoute>
             }
           />
@@ -328,14 +392,6 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={[ROLES.ADMIN]}>
                 <AdminAnalytics />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={ROUTES.ADMIN_WAITLIST}
-            element={
-              <ProtectedRoute allowedRoles={[ROLES.ADMIN]}>
-                <AdminWaitlist />
               </ProtectedRoute>
             }
           />

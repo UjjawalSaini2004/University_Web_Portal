@@ -21,6 +21,14 @@ const authService = {
   },
 
   /**
+   * Register admin (pending approval)
+   */
+  registerAdmin: async (adminData) => {
+    const response = await api.post('/auth/register-admin', adminData);
+    return response.data;
+  },
+
+  /**
    * Get current user
    */
   getMe: async () => {

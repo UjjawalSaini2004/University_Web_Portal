@@ -633,10 +633,8 @@ const getCourses = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: {
-        courses,
-        pagination: createPaginationResponse(total, page, limit),
-      },
+      data: courses,
+      pagination: createPaginationResponse(total, page, limit),
     });
   } catch (error) {
     logger.error(`Get courses error: ${error.message}`);
@@ -665,9 +663,11 @@ const createCourse = async (req, res) => {
     });
   } catch (error) {
     logger.error(`Create course error: ${error.message}`);
+    console.error('Create course error details:', error);
     res.status(500).json({
       success: false,
-      message: 'Error creating course.',
+      message: error.message || 'Error creating course.',
+      error: error.message,
     });
   }
 };

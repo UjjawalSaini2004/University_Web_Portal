@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {
   register,
+  registerAdmin,
   login,
   getMe,
   forgotPassword,
@@ -14,6 +15,7 @@ const { registerValidation, loginValidation } = require('../middleware/validator
 
 // Public routes
 router.post('/register', registerValidation, register);
+router.post('/register-admin', registerAdmin);
 router.post('/login', loginValidation, login);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password/:token', resetPassword);
