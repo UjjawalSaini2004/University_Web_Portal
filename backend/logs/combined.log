@@ -271,3 +271,12 @@
 {"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 13:03:51"}
 {"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 13:04:07"}
 {"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 13:04:07"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 13:04:44"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 13:04:44"}
+{"level":"info","message":"Student deactivated by admin: 6916da29c42650f44d1e0ab9","service":"university-portal","timestamp":"2025-11-14 13:07:11"}
+{"level":"info","message":"Student deactivated by admin: 6916da29c42650f44d1e0ab9","service":"university-portal","timestamp":"2025-11-14 13:07:18"}
+{"level":"info","message":"Student updated by admin: 6916da29c42650f44d1e0ab9","service":"university-portal","timestamp":"2025-11-14 13:07:26"}
+{"level":"info","message":"Student deactivated by admin: 6916da29c42650f44d1e0ab9","service":"university-portal","timestamp":"2025-11-14 13:07:33"}
+{"level":"info","message":"Student deleted by super admin: demo2@gmail.edu","service":"university-portal","timestamp":"2025-11-14 13:07:43"}
+{"level":"info","message":"Student created by super admin: keshav@gmail.com","service":"university-portal","timestamp":"2025-11-14 13:08:49"}
+{"level":"info","message":"Student updated by admin: 6916dc897b077c382d638b4f","service":"university-portal","timestamp":"2025-11-14 13:09:09"}
