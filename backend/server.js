@@ -91,6 +91,9 @@ app.get('/', (req, res) => {
   });
 });
 
+// Ignore favicon requests
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+
 // 404 handler
 app.use(notFound);
 

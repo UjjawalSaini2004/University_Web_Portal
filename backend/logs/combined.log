@@ -126,3 +126,36 @@
 {"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-13 22:25:59"}
 {"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-13 22:29:00"}
 {"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-13 22:47:20"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:27:38"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 10:27:49"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:27:49"}
+{"level":"error","message":"Error: Not Found - /favicon.ico","method":"GET","service":"university-portal","stack":"Error: Not Found - /favicon.ico\n    at notFound (D:\\B.Tech Major Project\\backend\\middleware\\errorHandler.js:58:17)\n    at Layer.handle [as handle_request] (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:286:9\n    at router.process_params (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at logger (D:\\B.Tech Major Project\\backend\\node_modules\\morgan\\index.js:144:5)\n    at Layer.handle [as handle_request] (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at D:\\B.Tech Major Project\\backend\\node_modules\\express\\lib\\router\\index.js:286:9","timestamp":"2025-11-14 10:28:33","url":"/favicon.ico"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 10:29:15"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:29:15"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 10:29:26"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:29:26"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 10:33:20"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:33:20"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 10:33:26"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:33:26"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 10:33:31"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:33:31"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 10:33:39"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:33:39"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 10:33:42"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:33:42"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 10:33:47"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:33:47"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 10:34:26"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:34:26"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 10:36:14"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:36:14"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:37:50"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:38:05"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 10:38:18"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:38:18"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 10:40:30"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:40:30"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 10:41:24"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 10:46:25"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:46:25"}

@@ -1,19 +1,15 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const { ROLES } = require('../utils/constants');
 
 /**
- * Create the first super admin
- * This script should only be run once during initial setup
+ * Add super admin without clearing existing data
  */
-const createSuperAdmin = async () => {
+const addSuperAdmin = async () => {
   try {
     // Connect to MongoDB
-    await mongoose.connect('mongodb://localhost:27017/university_portal', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/university_portal');
 
     console.log('✅ Connected to MongoDB');
 
@@ -23,11 +19,10 @@ const createSuperAdmin = async () => {
     if (existingSuperAdmin) {
       console.log('❌ Super Admin already exists!');
       console.log('Email:', existingSuperAdmin.email);
-      console.log('Super Admin setup is disabled to prevent unauthorized access.');
-      process.exit(1);
+      process.exit(0);
     }
 
-    // Create super admin with your credentials
+    // Create super admin
     const superAdminData = {
       email: 'ujjawalsaini2004@gmail.com',
       password: 'UjjawalSaini',
@@ -45,7 +40,7 @@ const createSuperAdmin = async () => {
         country: 'India',
       },
       isActive: true,
-      isVerified: true, // Super admin is always verified
+      isVerified: true,
       isEmailVerified: true,
     };
 
@@ -56,12 +51,7 @@ const createSuperAdmin = async () => {
     console.log('Email:', superAdmin.email);
     console.log('Password: UjjawalSaini');
     console.log('Role:', superAdmin.role);
-    console.log('=====================================');
-    console.log('\n⚠️  SECURITY NOTICE:');
-    console.log('1. Change the default password immediately after first login');
-    console.log('2. This setup script cannot be run again');
-    console.log('3. Only Super Admin can create admin accounts');
-    console.log('4. Keep your credentials safe\n');
+    console.log('=====================================\n');
 
     process.exit(0);
   } catch (error) {
@@ -70,4 +60,4 @@ const createSuperAdmin = async () => {
   }
 };
 
-createSuperAdmin();
+addSuperAdmin();
