@@ -502,3 +502,18 @@
 {"level":"error","message":"Create course error: Course validation failed: academicYear: Academic year is required","service":"university-portal","timestamp":"2025-11-14 17:22:39"}
 {"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 17:23:19"}
 {"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 17:23:19"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 17:24:06"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 17:24:07"}
+{"level":"info","message":"Course created by admin: COMPUTER NETWORKING","service":"university-portal","timestamp":"2025-11-14 17:24:15"}
+{"level":"info","message":"User logged in: demoteacher1@gmail.com","service":"university-portal","timestamp":"2025-11-14 17:26:12"}
+{"level":"info","message":"Course deleted by super admin: COMPUTER NETWORKING","service":"university-portal","timestamp":"2025-11-14 17:28:00"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 17:28:48"}
+{"level":"info","message":"Course updated by admin: 6916cc455ab5d1d88c144d37","service":"university-portal","timestamp":"2025-11-14 17:29:04"}
+{"level":"info","message":"Course updated by admin: 6916b935d6a299cd3a14d590","service":"university-portal","timestamp":"2025-11-14 17:29:15"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 17:36:33"}
+{"level":"info","message":"Course deactivated by admin: 6916cc455ab5d1d88c144d37","service":"university-portal","timestamp":"2025-11-14 17:36:45"}
+{"level":"info","message":"User logged in: demoteacher1@gmail.com","service":"university-portal","timestamp":"2025-11-14 17:37:15"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 17:43:42"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 17:43:57"}
+{"level":"info","message":"Course deleted by super admin: CS201","service":"university-portal","timestamp":"2025-11-14 17:44:12"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 17:55:23"}
