@@ -95,10 +95,8 @@ const getStudents = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: {
-        students,
-        pagination: createPaginationResponse(total, page, limit),
-      },
+      data: students,
+      pagination: createPaginationResponse(total, page, limit),
     });
   } catch (error) {
     logger.error(`Get students error: ${error.message}`);
@@ -116,7 +114,7 @@ const getStudents = async (req, res) => {
  */
 const addStudent = async (req, res) => {
   try {
-    const { email, password, firstName, lastName, phoneNumber, dateOfBirth, gender, department, semester, admissionYear } = req.body;
+    const { email, password, firstName, lastName, phoneNumber, dateOfBirth, gender, department, semester, admissionYear, enrollmentNumber } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -125,6 +123,17 @@ const addStudent = async (req, res) => {
         success: false,
         message: 'User with this email already exists.',
       });
+    }
+
+    // Check for duplicate enrollment number if provided
+    if (enrollmentNumber) {
+      const existingEnrollment = await User.findOne({ enrollmentNumber });
+      if (existingEnrollment) {
+        return res.status(400).json({
+          success: false,
+          message: `Enrollment number ${enrollmentNumber} is already in use. Please use a unique enrollment number.`,
+        });
+      }
     }
 
     const dept = await Department.findById(department);
@@ -147,7 +156,7 @@ const addStudent = async (req, res) => {
       department,
       semester,
       admissionYear,
-      enrollmentNumber: generateEnrollmentNumber(dept.code, admissionYear),
+      enrollmentNumber: enrollmentNumber || generateEnrollmentNumber(dept.code, admissionYear),
       batch: `${admissionYear}-${parseInt(admissionYear) + 4}`,
     });
 
@@ -174,9 +183,31 @@ const addStudent = async (req, res) => {
  */
 const updateStudent = async (req, res) => {
   try {
+    const { enrollmentNumber } = req.body;
+
+    // Check for duplicate enrollment number if it's being updated
+    if (enrollmentNumber) {
+      const existingEnrollment = await User.findOne({ 
+        enrollmentNumber,
+        _id: { $ne: req.params.id }
+      });
+      if (existingEnrollment) {
+        return res.status(400).json({
+          success: false,
+          message: `Enrollment number ${enrollmentNumber} is already in use. Please use a unique enrollment number.`,
+        });
+      }
+    }
+
+    // Prepare update data - filter out empty password
+    const updateData = { ...req.body };
+    if (!updateData.password || updateData.password.trim() === '') {
+      delete updateData.password;
+    }
+
     const student = await User.findOneAndUpdate(
       { _id: req.params.id, role: ROLES.STUDENT },
-      req.body,
+      updateData,
       { new: true, runValidators: true }
     ).populate('department', 'name code');
 
@@ -270,10 +301,8 @@ const getFaculty = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: {
-        faculty,
-        pagination: createPaginationResponse(total, page, limit),
-      },
+      data: faculty,
+      pagination: createPaginationResponse(total, page, limit),
     });
   } catch (error) {
     logger.error(`Get faculty error: ${error.message}`);
@@ -291,7 +320,7 @@ const getFaculty = async (req, res) => {
  */
 const addFaculty = async (req, res) => {
   try {
-    const { email, password, firstName, lastName, phoneNumber, dateOfBirth, gender, department, designation, qualification, joiningDate } = req.body;
+    const { email, password, firstName, lastName, phoneNumber, dateOfBirth, gender, department, designation, qualification, joiningDate, employeeId } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -299,6 +328,17 @@ const addFaculty = async (req, res) => {
         success: false,
         message: 'User with this email already exists.',
       });
+    }
+
+    // Check for duplicate employee ID if provided
+    if (employeeId) {
+      const existingEmployee = await User.findOne({ employeeId });
+      if (existingEmployee) {
+        return res.status(400).json({
+          success: false,
+          message: `Employee ID ${employeeId} is already in use. Please use a unique employee ID.`,
+        });
+      }
     }
 
     const dept = await Department.findById(department);
@@ -322,7 +362,7 @@ const addFaculty = async (req, res) => {
       designation,
       qualification,
       joiningDate,
-      employeeId: generateEmployeeID(dept.code),
+      employeeId: employeeId || generateEmployeeID(dept.code),
     });
 
     logger.info(`Faculty added by admin: ${faculty.email}`);
@@ -337,6 +377,99 @@ const addFaculty = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error adding faculty.',
+    });
+  }
+};
+
+/**
+ * @desc    Update faculty
+ * @route   PUT /api/admin/faculty/:id
+ * @access  Private/Admin
+ */
+const updateFaculty = async (req, res) => {
+  try {
+    const { employeeId } = req.body;
+
+    // Check for duplicate employee ID if it's being updated
+    if (employeeId) {
+      const existingEmployee = await User.findOne({ 
+        employeeId,
+        _id: { $ne: req.params.id }
+      });
+      if (existingEmployee) {
+        return res.status(400).json({
+          success: false,
+          message: `Employee ID ${employeeId} is already in use. Please use a unique employee ID.`,
+        });
+      }
+    }
+
+    // Prepare update data - filter out empty password
+    const updateData = { ...req.body };
+    if (!updateData.password || updateData.password.trim() === '') {
+      delete updateData.password;
+    }
+
+    const faculty = await User.findOneAndUpdate(
+      { _id: req.params.id, role: ROLES.FACULTY },
+      updateData,
+      { new: true, runValidators: true }
+    ).populate('department', 'name code');
+
+    if (!faculty) {
+      return res.status(404).json({
+        success: false,
+        message: 'Faculty not found.',
+      });
+    }
+
+    logger.info(`Faculty updated by admin: ${faculty._id}`);
+
+    res.status(200).json({
+      success: true,
+      message: 'Faculty updated successfully.',
+      data: { faculty },
+    });
+  } catch (error) {
+    logger.error(`Update faculty error: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error updating faculty.',
+    });
+  }
+};
+
+/**
+ * @desc    Delete/Deactivate faculty
+ * @route   DELETE /api/admin/faculty/:id
+ * @access  Private/Admin
+ */
+const deleteFaculty = async (req, res) => {
+  try {
+    const faculty = await User.findOneAndUpdate(
+      { _id: req.params.id, role: ROLES.FACULTY },
+      { isActive: false },
+      { new: true }
+    );
+
+    if (!faculty) {
+      return res.status(404).json({
+        success: false,
+        message: 'Faculty not found.',
+      });
+    }
+
+    logger.info(`Faculty deactivated by admin: ${faculty._id}`);
+
+    res.status(200).json({
+      success: true,
+      message: 'Faculty deactivated successfully.',
+    });
+  } catch (error) {
+    logger.error(`Delete faculty error: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error deleting faculty.',
     });
   }
 };
@@ -576,6 +709,76 @@ const updateCourse = async (req, res) => {
 };
 
 /**
+ * @desc    Delete/Deactivate course
+ * @route   DELETE /api/admin/courses/:id
+ * @access  Private/Admin
+ */
+const deleteCourse = async (req, res) => {
+  try {
+    const course = await Course.findByIdAndUpdate(
+      req.params.id,
+      { status: 'inactive' },
+      { new: true }
+    );
+
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: 'Course not found.',
+      });
+    }
+
+    logger.info(`Course deactivated by admin: ${course._id}`);
+
+    res.status(200).json({
+      success: true,
+      message: 'Course deactivated successfully.',
+    });
+  } catch (error) {
+    logger.error(`Delete course error: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error deleting course.',
+    });
+  }
+};
+
+/**
+ * @desc    Delete/Deactivate department
+ * @route   DELETE /api/admin/departments/:id
+ * @access  Private/Admin
+ */
+const deleteDepartment = async (req, res) => {
+  try {
+    const department = await Department.findByIdAndUpdate(
+      req.params.id,
+      { isActive: false },
+      { new: true }
+    );
+
+    if (!department) {
+      return res.status(404).json({
+        success: false,
+        message: 'Department not found.',
+      });
+    }
+
+    logger.info(`Department deactivated by admin: ${department._id}`);
+
+    res.status(200).json({
+      success: true,
+      message: 'Department deactivated successfully.',
+    });
+  } catch (error) {
+    logger.error(`Delete department error: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error deleting department.',
+    });
+  }
+};
+
+/**
  * @desc    Create/Update timetable
  * @route   POST /api/admin/timetables
  * @access  Private/Admin
@@ -742,13 +945,17 @@ module.exports = {
   deleteStudent,
   getFaculty,
   addFaculty,
+  updateFaculty,
+  deleteFaculty,
   assignFacultyToCourse,
   getDepartments,
   createDepartment,
   updateDepartment,
+  deleteDepartment,
   getCourses,
   createCourse,
   updateCourse,
+  deleteCourse,
   manageTimetable,
   getCertificateRequests,
   approveCertificate,

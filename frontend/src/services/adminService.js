@@ -49,6 +49,11 @@ const adminService = {
     return response.data;
   },
 
+  deleteFaculty: async (id) => {
+    const response = await api.delete(`/admin/faculty/${id}`);
+    return response.data;
+  },
+
   assignFacultyToCourse: async (courseId, facultyId) => {
     const response = await api.put(`/admin/courses/${courseId}/assign-faculty`, { facultyId });
     return response.data;
@@ -70,6 +75,11 @@ const adminService = {
     return response.data;
   },
 
+  deleteDepartment: async (id) => {
+    const response = await api.delete(`/admin/departments/${id}`);
+    return response.data;
+  },
+
   // Course management
   getCourses: async (params) => {
     const response = await api.get('/admin/courses', { params });
@@ -83,6 +93,11 @@ const adminService = {
 
   updateCourse: async (id, data) => {
     const response = await api.put(`/admin/courses/${id}`, data);
+    return response.data;
+  },
+
+  deleteCourse: async (id) => {
+    const response = await api.delete(`/admin/courses/${id}`);
     return response.data;
   },
 

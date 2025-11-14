@@ -159,3 +159,115 @@
 {"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 10:41:24"}
 {"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 10:46:25"}
 {"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:46:25"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 10:46:41"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:46:41"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 10:46:58"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 10:51:20"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 10:51:20"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 10:52:10"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 10:52:18"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 10:52:33"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 10:52:40"}
+{"level":"error","message":"Error creating student: User validation failed: admissionYear: Path `admissionYear` is required., gender: `Male` is not a valid enum value for path `gender`., department: Path `department` is required.","service":"university-portal","timestamp":"2025-11-14 11:12:57"}
+{"level":"error","message":"Error creating student: User validation failed: admissionYear: Path `admissionYear` is required., gender: `Male` is not a valid enum value for path `gender`., department: Path `department` is required.","service":"university-portal","timestamp":"2025-11-14 11:13:01"}
+{"level":"error","message":"Error creating student: User validation failed: admissionYear: Path `admissionYear` is required., gender: `Male` is not a valid enum value for path `gender`., department: Path `department` is required.","service":"university-portal","timestamp":"2025-11-14 11:16:05"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 11:21:24"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 11:21:24"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 11:21:43"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 11:21:43"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 11:21:56"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 11:21:56"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 11:22:25"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 11:22:25"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 11:22:56"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 11:22:56"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 11:25:51"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 11:25:51"}
+{"level":"error","message":"Error creating admin: User validation failed: password: Path `password` (`Demo`, length 4) is shorter than the minimum allowed length (6)., gender: `Female` is not a valid enum value for path `gender`.","service":"university-portal","timestamp":"2025-11-14 11:27:03"}
+{"level":"error","message":"Error creating admin: User validation failed: password: Path `password` (`Demo`, length 4) is shorter than the minimum allowed length (6)., gender: `Female` is not a valid enum value for path `gender`.","service":"university-portal","timestamp":"2025-11-14 11:27:07"}
+{"level":"error","message":"Error creating student: User validation failed: admissionYear: Path `admissionYear` is required., password: Path `password` (`demo`, length 4) is shorter than the minimum allowed length (6)., gender: `alet` is not a valid enum value for path `gender`., department: Path `department` is required.","service":"university-portal","timestamp":"2025-11-14 11:27:54"}
+{"level":"error","message":"Error creating student: User validation failed: admissionYear: Path `admissionYear` is required., password: Path `password` (`demo`, length 4) is shorter than the minimum allowed length (6)., gender: `alet` is not a valid enum value for path `gender`., department: Path `department` is required.","service":"university-portal","timestamp":"2025-11-14 11:27:57"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 11:28:53"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 11:28:53"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 11:29:18"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 11:29:18"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 11:29:42"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 11:29:42"}
+{"level":"error","message":"Error creating student: User validation failed: admissionYear: Path `admissionYear` is required., gender: `Male` is not a valid enum value for path `gender`., department: Path `department` is required.","service":"university-portal","timestamp":"2025-11-14 11:31:47"}
+{"level":"error","message":"Error creating student: User validation failed: admissionYear: Path `admissionYear` is required., gender: `Male` is not a valid enum value for path `gender`., department: Path `department` is required.","service":"university-portal","timestamp":"2025-11-14 11:31:55"}
+{"level":"error","message":"Error creating student: User validation failed: admissionYear: Path `admissionYear` is required., password: Path `password` (`demo`, length 4) is shorter than the minimum allowed length (6).","service":"university-portal","timestamp":"2025-11-14 11:35:49"}
+{"level":"error","message":"Error creating student: User validation failed: admissionYear: Path `admissionYear` is required., password: Path `password` (`demo`, length 4) is shorter than the minimum allowed length (6).","service":"university-portal","timestamp":"2025-11-14 11:36:38"}
+{"level":"error","message":"Error creating student: User validation failed: admissionYear: Path `admissionYear` is required.","service":"university-portal","timestamp":"2025-11-14 11:37:36"}
+{"level":"error","message":"Error creating student: User validation failed: admissionYear: Path `admissionYear` is required.","service":"university-portal","timestamp":"2025-11-14 11:38:01"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 11:38:45"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 11:38:45"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 11:38:55"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 11:38:55"}
+{"level":"info","message":"Student created by super admin: demo@university.edu","service":"university-portal","timestamp":"2025-11-14 11:39:01"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 11:40:24"}
+{"level":"info","message":"Student created by super admin: keshavgupta@gmail.com","service":"university-portal","timestamp":"2025-11-14 11:41:31"}
+{"level":"error","message":"Error creating teacher: User validation failed: gender: `Female` is not a valid enum value for path `gender`.","service":"university-portal","timestamp":"2025-11-14 11:42:44"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 11:46:38"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 11:46:58"}
+{"level":"info","message":"Teacher created by super admin: teacher@gmail.com","service":"university-portal","timestamp":"2025-11-14 11:55:32"}
+{"level":"error","message":"Error creating course: Course validation failed: academicYear: Academic year is required, type: Course type is required","service":"university-portal","timestamp":"2025-11-14 11:56:13"}
+{"level":"error","message":"Error creating course: Course validation failed: academicYear: Academic year is required, type: Course type is required","service":"university-portal","timestamp":"2025-11-14 11:56:27"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 11:57:15"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 11:57:15"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 11:59:22"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 11:59:22"}
+{"level":"info","message":"Course created by super admin: CS201","service":"university-portal","timestamp":"2025-11-14 11:59:26"}
+{"level":"info","message":"User role updated by super admin: demo@university.edu","newRole":"admin","service":"university-portal","timestamp":"2025-11-14 11:59:44","updatedBy":"ujjawalsaini2004@gmail.com"}
+{"deletedBy":"ujjawalsaini2004@gmail.com","level":"info","message":"User deleted by super admin: emily.reddy@student.edu","service":"university-portal","timestamp":"2025-11-14 11:59:54"}
+{"deletedBy":"ujjawalsaini2004@gmail.com","level":"info","message":"User deleted by super admin: diana.gupta@student.edu","service":"university-portal","timestamp":"2025-11-14 11:59:59"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 12:08:41"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 12:08:54"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 12:09:57"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 12:09:57"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 12:10:33"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 12:10:33"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 12:10:47"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 12:10:47"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 12:11:02"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 12:11:02"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 12:11:15"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 12:11:15"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 12:11:26"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 12:11:26"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 12:16:21"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 12:16:21"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 12:16:53"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 12:17:43"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 12:18:42"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 12:18:48"}
+{"level":"info","message":"Student deleted by super admin: charlie.patel@student.edu","service":"university-portal","timestamp":"2025-11-14 12:23:44"}
+{"level":"info","message":"Student deleted by super admin: bob.sharma@student.edu","service":"university-portal","timestamp":"2025-11-14 12:23:48"}
+{"level":"info","message":"Student deleted by super admin: keshavgupta@gmail.com","service":"university-portal","timestamp":"2025-11-14 12:23:53"}
+{"level":"info","message":"Student deleted by super admin: alice.kumar@student.edu","service":"university-portal","timestamp":"2025-11-14 12:23:57"}
+{"level":"error","message":"Error creating student: E11000 duplicate key error collection: university_portal.users index: enrollmentNumber_1 dup key: { enrollmentNumber: \"243\" }","service":"university-portal","timestamp":"2025-11-14 12:24:38"}
+{"level":"error","message":"Error creating student: E11000 duplicate key error collection: university_portal.users index: enrollmentNumber_1 dup key: { enrollmentNumber: \"243\" }","service":"university-portal","timestamp":"2025-11-14 12:24:42"}
+{"level":"error","message":"Error creating student: E11000 duplicate key error collection: university_portal.users index: enrollmentNumber_1 dup key: { enrollmentNumber: \"243\" }","service":"university-portal","timestamp":"2025-11-14 12:24:49"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 12:26:23"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 12:26:23"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 12:26:34"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 12:26:34"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 12:29:47"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 12:29:47"}
+{"level":"info","message":"Student created by super admin: demo@1university.edu","service":"university-portal","timestamp":"2025-11-14 12:31:34"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 12:32:05"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 12:39:27"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 12:39:27"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 12:52:58"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 12:52:58"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 12:53:18"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 12:53:18"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 12:54:23"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 12:54:23"}
+{"level":"info","message":"Student created by super admin: demo2@gmail.edu","service":"university-portal","timestamp":"2025-11-14 12:58:41"}
+{"level":"error","message":"Update student error: Validation failed: password: Password is required","service":"university-portal","timestamp":"2025-11-14 12:59:12"}
+{"level":"error","message":"Update student error: Validation failed: password: Password is required","service":"university-portal","timestamp":"2025-11-14 12:59:14"}
+{"level":"error","message":"Update student error: Validation failed: password: Password is required","service":"university-portal","timestamp":"2025-11-14 12:59:40"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 13:03:51"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 13:03:51"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-14 13:04:07"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-14 13:04:07"}

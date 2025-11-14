@@ -18,12 +18,15 @@ const AdminDashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
+      console.log('🔄 Fetching admin dashboard data from database...');
       const response = await adminService.getDashboard();
-      console.log('Dashboard response:', response);
+      console.log('✅ Dashboard data fetched:', response);
       // adminService returns response.data which has structure { success, data }
       setDashboardData(response.data);
     } catch (error) {
-      console.error('Error fetching dashboard:', error);
+      console.error('❌ Error fetching dashboard:', error);
+      const errorMessage = error.response?.data?.message || 'Failed to load dashboard';
+      console.error(errorMessage);
     } finally {
       setLoading(false);
     }

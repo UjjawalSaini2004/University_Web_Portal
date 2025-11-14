@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import superAdminService from '../../services/superAdminService';
 import StudentCard from './cards/StudentCard';
 import TeacherCard from './cards/TeacherCard';
@@ -10,6 +11,7 @@ import UserCard from './cards/UserCard';
 
 const SuperAdminDashboard = () => {
   const navigate = useNavigate();
+  const { user, logout, checkSectionAccess, isSuperAdmin } = useAuth();
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -24,12 +26,14 @@ const SuperAdminDashboard = () => {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
+      console.log('🔄 Fetching fresh dashboard data from database...');
       const statsRes = await superAdminService.getSuperAdminStats();
       if (statsRes.success) {
         setStats(statsRes.data);
+        console.log('✅ Dashboard data updated:', statsRes.data);
       }
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
+      console.error('❌ Error fetching dashboard data:', error);
     } finally {
       setLoading(false);
     }
@@ -40,21 +44,28 @@ const SuperAdminDashboard = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    navigate('/login');
+    logout();
   };
 
-  const navItems = [
-    { id: 'dashboard', name: 'Dashboard', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
-    { id: 'students', name: 'Students', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
-    { id: 'teachers', name: 'Teachers', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
-    { id: 'admins', name: 'Admins', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
-    { id: 'departments', name: 'Departments', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
-    { id: 'courses', name: 'Courses', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253' },
-    { id: 'users', name: 'All Users', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
-    { id: 'settings', name: 'Settings', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z' },
+  // Filter navigation items based on user permissions
+  const allNavItems = [
+    { id: 'dashboard', name: 'Dashboard', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', section: null },
+    { id: 'students', name: 'Students', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z', section: 'students' },
+    { id: 'teachers', name: 'Teachers', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z', section: 'teachers' },
+    { id: 'admins', name: 'Admins', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', section: 'admins' },
+    { id: 'departments', name: 'Departments', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4', section: 'departments' },
+    { id: 'courses', name: 'Courses', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253', section: 'courses' },
+    { id: 'users', name: 'All Users', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z', section: 'users' },
+    { id: 'settings', name: 'Settings', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z', section: null },
   ];
+
+  // Filter nav items based on permissions
+  const navItems = allNavItems.filter(item => {
+    // Always show dashboard and settings
+    if (!item.section) return true;
+    // Check if user has access to this section
+    return checkSectionAccess(item.section);
+  });
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
@@ -63,7 +74,9 @@ const SuperAdminDashboard = () => {
         {/* Logo Area */}
         <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
           {sidebarOpen && (
-            <h2 className="text-xl font-bold text-indigo-600">Super Admin</h2>
+            <h2 className="text-xl font-bold text-indigo-600">
+              {isSuperAdmin() ? 'Super Admin' : 'Admin'}
+            </h2>
           )}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -156,11 +169,17 @@ const SuperAdminDashboard = () => {
             {/* Profile */}
             <div className="flex items-center space-x-3 pl-4 border-l border-gray-200">
               <div className="text-right">
-                <p className="text-sm font-medium text-gray-900">Super Admin</p>
-                <p className="text-xs text-gray-500">administrator</p>
+                <p className="text-sm font-medium text-gray-900">
+                  {user?.firstName} {user?.lastName}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {isSuperAdmin() ? 'Super Administrator' : 'Administrator'}
+                </p>
               </div>
               <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center">
-                <span className="text-white font-semibold">SA</span>
+                <span className="text-white font-semibold">
+                  {user?.firstName?.charAt(0)}{user?.lastName?.charAt(0)}
+                </span>
               </div>
             </div>
           </div>
@@ -176,11 +195,16 @@ const SuperAdminDashboard = () => {
                 <div className="flex items-center space-x-2 text-sm text-gray-500 mb-1">
                   <span>Dashboard</span>
                   <span>/</span>
-                  <span className="text-gray-900 font-medium">Super Admin</span>
+                  <span className="text-gray-900 font-medium">
+                    {isSuperAdmin() ? 'Super Admin' : 'Admin'}
+                  </span>
                 </div>
                 {/* Small Subtitle */}
                 <p className="text-sm text-gray-600">
-                  Manage all aspects of the university portal
+                  {isSuperAdmin() 
+                    ? 'Manage all aspects of the university portal'
+                    : 'Manage students and teachers'
+                  }
                 </p>
               </div>
               {/* Refresh All Button */}
@@ -277,51 +301,65 @@ const SuperAdminDashboard = () => {
               </div>
             </div>
 
-            {/* Collapsible Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-              <StudentCard 
-                stats={stats} 
-                loading={loading} 
-                onRefresh={handleRefresh} 
-                activeCard={activeCard}
-                setActiveCard={setActiveCard}
-              />
-              <TeacherCard 
-                stats={stats} 
-                loading={loading} 
-                onRefresh={handleRefresh}
-                activeCard={activeCard}
-                setActiveCard={setActiveCard}
-              />
-              <AdminCard 
-                stats={stats} 
-                loading={loading} 
-                onRefresh={handleRefresh}
-                activeCard={activeCard}
-                setActiveCard={setActiveCard}
-              />
-              <DepartmentCard 
-                stats={stats} 
-                loading={loading} 
-                onRefresh={handleRefresh}
-                activeCard={activeCard}
-                setActiveCard={setActiveCard}
-              />
-              <CourseCard 
-                stats={stats} 
-                loading={loading} 
-                onRefresh={handleRefresh}
-                activeCard={activeCard}
-                setActiveCard={setActiveCard}
-              />
-              <UserCard 
-                stats={stats} 
-                loading={loading} 
-                onRefresh={handleRefresh}
-                activeCard={activeCard}
-                setActiveCard={setActiveCard}
-              />
-            </div>
+            {/* Dynamic Card Rendering - Only show when sidebar item is clicked */}
+            {activeCard && (
+              <div className="space-y-4">
+                {activeCard === 'students' && checkSectionAccess('students') && (
+                  <StudentCard 
+                    stats={stats} 
+                    loading={loading} 
+                    onRefresh={handleRefresh} 
+                    activeCard={activeCard}
+                    setActiveCard={setActiveCard}
+                  />
+                )}
+                {activeCard === 'teachers' && checkSectionAccess('teachers') && (
+                  <TeacherCard 
+                    stats={stats} 
+                    loading={loading} 
+                    onRefresh={handleRefresh}
+                    activeCard={activeCard}
+                    setActiveCard={setActiveCard}
+                  />
+                )}
+                {activeCard === 'admins' && checkSectionAccess('admins') && (
+                  <AdminCard 
+                    stats={stats} 
+                    loading={loading} 
+                    onRefresh={handleRefresh}
+                    activeCard={activeCard}
+                    setActiveCard={setActiveCard}
+                  />
+                )}
+                {activeCard === 'departments' && checkSectionAccess('departments') && (
+                  <DepartmentCard 
+                    stats={stats} 
+                    loading={loading} 
+                    onRefresh={handleRefresh}
+                    activeCard={activeCard}
+                    setActiveCard={setActiveCard}
+                  />
+                )}
+                {activeCard === 'courses' && checkSectionAccess('courses') && (
+                  <CourseCard 
+                    stats={stats} 
+                    loading={loading} 
+                    onRefresh={handleRefresh}
+                    activeCard={activeCard}
+                    setActiveCard={setActiveCard}
+                  />
+                )}
+                {activeCard === 'users' && checkSectionAccess('users') && (
+                  <UserCard 
+                    stats={stats} 
+                    loading={loading} 
+                    onRefresh={handleRefresh}
+                    activeCard={activeCard}
+                    setActiveCard={setActiveCard}
+                  />
+                )}
+              </div>
+            )}
           </div>
         </main>
       </div>

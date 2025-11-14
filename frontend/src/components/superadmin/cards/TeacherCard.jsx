@@ -11,6 +11,7 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
   const [pendingTeachers, setPendingTeachers] = useState([]);
   const [loadingData, setLoadingData] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [departments, setDepartments] = useState([]);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -19,10 +20,12 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
     phoneNumber: '',
     dateOfBirth: '',
     gender: '',
+    department: '',
     employeeId: '',
-    qualifications: '',
+    designation: '',
+    qualification: '',
     specialization: '',
-    experience: '',
+    joiningDate: '',
     address: ''
   });
   const [submitting, setSubmitting] = useState(false);
@@ -42,16 +45,22 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
   const fetchTeacherData = async () => {
     try {
       setLoadingData(true);
-      const [teachersRes, pendingRes] = await Promise.all([
+      console.log('🔄 Fetching fresh teacher data from database...');
+      const [teachersRes, pendingRes, deptsRes] = await Promise.all([
         superAdminService.getAllTeachers({ page: 1, limit: 20 }),
-        superAdminService.getPendingTeachers()
+        superAdminService.getPendingTeachers(),
+        superAdminService.getAllDepartments()
       ]);
 
       if (teachersRes.success) {
         setTeachers(teachersRes.data.users || teachersRes.data || []);
+        console.log('✅ Teachers updated:', teachersRes.data.users?.length || 0, 'teachers');
       }
       if (pendingRes.success) {
         setPendingTeachers(pendingRes.data || []);
+      }
+      if (deptsRes.success) {
+        setDepartments(deptsRes.data || []);
       }
     } catch (error) {
       console.error('Error fetching teacher data:', error);
@@ -104,19 +113,23 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
           phoneNumber: '',
           dateOfBirth: '',
           gender: '',
+          department: '',
           employeeId: '',
-          qualifications: '',
+          designation: '',
+          qualification: '',
           specialization: '',
-          experience: '',
+          joiningDate: '',
           address: ''
         });
+        console.log('✅ Teacher created successfully, refetching data...');
         fetchTeacherData();
         onRefresh();
         alert('Teacher created successfully!');
       }
     } catch (error) {
-      console.error('Error creating teacher:', error);
-      alert('Failed to create teacher');
+      console.error('❌ Error creating teacher:', error);
+      const errorMessage = error.response?.data?.message || error.message || 'Failed to create teacher';
+      alert(`Error: ${errorMessage}`);
     } finally {
       setSubmitting(false);
     }
@@ -124,6 +137,24 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleDelete = async (teacherId) => {
+    if (!window.confirm('Are you sure you want to delete this teacher? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      const result = await superAdminService.deleteTeacher(teacherId);
+      if (result.success) {
+        alert('Teacher deleted successfully!');
+        fetchTeacherData(); // Refetch from database
+        onRefresh(); // Refresh dashboard stats
+      }
+    } catch (error) {
+      console.error('Error deleting teacher:', error);
+      alert('Failed to delete teacher');
+    }
   };
 
   return (
@@ -230,6 +261,7 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Employee ID</th>
                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                        <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -244,6 +276,15 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
                             <Badge variant={teacher.isActive ? 'success' : 'danger'}>
                               {teacher.isActive ? 'Active' : 'Inactive'}
                             </Badge>
+                          </td>
+                          <td className="px-4 py-3 text-right">
+                            <button
+                              onClick={() => handleDelete(teacher._id)}
+                              className="text-red-600 hover:text-red-800 font-medium text-sm"
+                              title="Delete teacher"
+                            >
+                              Delete
+                            </button>
                           </td>
                         </tr>
                       ))}
@@ -368,6 +409,8 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
             type="password"
             value={formData.password}
             onChange={handleInputChange}
+            minLength={6}
+            helperText="Minimum 6 characters"
             required
           />
           <div className="grid grid-cols-2 gap-4">
@@ -387,7 +430,7 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
               required
             />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <Input
               label="Employee ID"
               name="employeeId"
@@ -396,19 +439,67 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
               required
             />
             <Input
-              label="Experience (years)"
-              name="experience"
-              type="number"
-              value={formData.experience}
+              label="Designation"
+              name="designation"
+              value={formData.designation}
               onChange={handleInputChange}
+              placeholder="e.g., Associate Professor"
+              required
+            />
+            <Input
+              label="Joining Date"
+              name="joiningDate"
+              type="date"
+              value={formData.joiningDate}
+              onChange={handleInputChange}
+              required
             />
           </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Gender <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleInputChange}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Department <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="department"
+                value={formData.department}
+                onChange={handleInputChange}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="">Select Department</option>
+                {departments.map((dept) => (
+                  <option key={dept._id} value={dept._id}>
+                    {dept.name} ({dept.code})
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
           <Input
-            label="Qualifications"
-            name="qualifications"
-            value={formData.qualifications}
+            label="Qualification"
+            name="qualification"
+            value={formData.qualification}
             onChange={handleInputChange}
             placeholder="e.g., Ph.D. in Computer Science"
+            required
           />
           <Input
             label="Specialization"
@@ -416,13 +507,6 @@ const TeacherCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
             value={formData.specialization}
             onChange={handleInputChange}
             placeholder="e.g., Machine Learning, Data Structures"
-          />
-          <Input
-            label="Gender"
-            name="gender"
-            value={formData.gender}
-            onChange={handleInputChange}
-            required
           />
           <Input
             label="Address"

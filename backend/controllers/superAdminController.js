@@ -763,12 +763,24 @@ const createTeacher = async (req, res) => {
       qualification,
     } = req.body;
 
+    // Check for existing email
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: 'User with this email already exists',
+        message: 'A user with this email already exists',
       });
+    }
+
+    // Check for existing employee ID
+    if (employeeId) {
+      const existingEmployee = await User.findOne({ employeeId });
+      if (existingEmployee) {
+        return res.status(400).json({
+          success: false,
+          message: `Employee ID ${employeeId} is already in use. Please use a unique employee ID.`,
+        });
+      }
     }
 
     const teacher = await User.create({
@@ -873,6 +885,54 @@ const updateTeacher = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error updating teacher',
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Delete teacher
+ */
+const deleteTeacher = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const teacher = await User.findOneAndDelete({
+      _id: id,
+      role: ROLES.TEACHER,
+    });
+
+    if (!teacher) {
+      return res.status(404).json({
+        success: false,
+        message: 'Teacher not found',
+      });
+    }
+
+    // Log activity
+    await createActivityLog({
+      action: 'USER_DELETED',
+      performedBy: req.user._id,
+      performedByName: req.user.fullName,
+      performedByRole: req.user.role,
+      targetUser: teacher._id,
+      targetUserName: teacher.fullName,
+      description: `Deleted teacher: ${teacher.email}`,
+      ipAddress: req.ip,
+      userAgent: req.get('user-agent'),
+    });
+
+    logger.info(`Teacher deleted by super admin: ${teacher.email}`);
+
+    res.status(200).json({
+      success: true,
+      message: 'Teacher deleted successfully',
+    });
+  } catch (error) {
+    logger.error(`Error deleting teacher: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error deleting teacher',
       error: error.message,
     });
   }
@@ -1098,12 +1158,24 @@ const createStudent = async (req, res) => {
       academicYear,
     } = req.body;
 
+    // Check for existing email
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: 'User with this email already exists',
+        message: 'A user with this email already exists',
       });
+    }
+
+    // Check for existing enrollment number
+    if (enrollmentNumber) {
+      const existingEnrollment = await User.findOne({ enrollmentNumber });
+      if (existingEnrollment) {
+        return res.status(400).json({
+          success: false,
+          message: `Enrollment number ${enrollmentNumber} is already in use. Please use a unique enrollment number.`,
+        });
+      }
     }
 
     const student = await User.create({
@@ -1118,7 +1190,7 @@ const createStudent = async (req, res) => {
       department,
       enrollmentNumber,
       semester,
-      academicYear,
+      admissionYear: academicYear,
       isActive: true,
       isVerified: true,
       verifiedBy: req.user._id,
@@ -1213,6 +1285,54 @@ const updateStudent = async (req, res) => {
   }
 };
 
+/**
+ * Delete student
+ */
+const deleteStudent = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const student = await User.findOneAndDelete({
+      _id: id,
+      role: ROLES.STUDENT,
+    });
+
+    if (!student) {
+      return res.status(404).json({
+        success: false,
+        message: 'Student not found',
+      });
+    }
+
+    // Log activity
+    await createActivityLog({
+      action: 'USER_DELETED',
+      performedBy: req.user._id,
+      performedByName: req.user.fullName,
+      performedByRole: req.user.role,
+      targetUser: student._id,
+      targetUserName: student.fullName,
+      description: `Deleted student: ${student.email}`,
+      ipAddress: req.ip,
+      userAgent: req.get('user-agent'),
+    });
+
+    logger.info(`Student deleted by super admin: ${student.email}`);
+
+    res.status(200).json({
+      success: true,
+      message: 'Student deleted successfully',
+    });
+  } catch (error) {
+    logger.error(`Error deleting student: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error deleting student',
+      error: error.message,
+    });
+  }
+};
+
 // ==================== COURSE MANAGEMENT ====================
 
 /**
@@ -1270,6 +1390,8 @@ const createCourse = async (req, res) => {
       credits,
       department,
       semester,
+      type,
+      academicYear,
       faculty,
       isActive,
     } = req.body;
@@ -1289,6 +1411,8 @@ const createCourse = async (req, res) => {
       credits,
       department,
       semester,
+      type,
+      academicYear,
       faculty,
       isActive: isActive !== undefined ? isActive : true,
     });
@@ -1874,6 +1998,7 @@ module.exports = {
   denyTeacher,
   createTeacher,
   updateTeacher,
+  deleteTeacher,
   // Student Management
   getAllStudents,
   getPendingStudents,
@@ -1881,6 +2006,7 @@ module.exports = {
   denyStudent,
   createStudent,
   updateStudent,
+  deleteStudent,
   // Course Management
   getAllCourses,
   createCourse,

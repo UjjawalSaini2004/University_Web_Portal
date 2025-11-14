@@ -14,7 +14,11 @@ const DepartmentCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }
     name: '',
     code: '',
     description: '',
-    hod: ''
+    establishedYear: new Date().getFullYear(),
+    building: '',
+    floor: '',
+    contactEmail: '',
+    contactPhone: ''
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -71,7 +75,11 @@ const DepartmentCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }
           name: '',
           code: '',
           description: '',
-          hod: ''
+          establishedYear: new Date().getFullYear(),
+          building: '',
+          floor: '',
+          contactEmail: '',
+          contactPhone: ''
         });
         fetchDepartmentData();
         onRefresh();
@@ -246,31 +254,70 @@ const DepartmentCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }
             name="name"
             value={formData.name}
             onChange={handleInputChange}
-            placeholder="e.g., Computer Science"
+            placeholder="e.g., Computer Science and Engineering"
             required
           />
-          <Input
-            label="Department Code"
-            name="code"
-            value={formData.code}
-            onChange={handleInputChange}
-            placeholder="e.g., CS"
-            required
-          />
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Department Code"
+              name="code"
+              value={formData.code}
+              onChange={handleInputChange}
+              placeholder="e.g., CSE"
+              required
+            />
+            <Input
+              label="Established Year"
+              name="establishedYear"
+              type="number"
+              min="1900"
+              max={new Date().getFullYear()}
+              value={formData.establishedYear}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
           <Input
             label="Description"
             name="description"
             value={formData.description}
             onChange={handleInputChange}
             placeholder="Brief description of the department"
+            required
           />
-          <Input
-            label="HOD ID (Optional)"
-            name="hod"
-            value={formData.hod}
-            onChange={handleInputChange}
-            placeholder="Faculty member ID"
-          />
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Building"
+              name="building"
+              value={formData.building}
+              onChange={handleInputChange}
+              placeholder="e.g., Block A"
+            />
+            <Input
+              label="Floor"
+              name="floor"
+              value={formData.floor}
+              onChange={handleInputChange}
+              placeholder="e.g., 2nd Floor"
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Contact Email"
+              name="contactEmail"
+              type="email"
+              value={formData.contactEmail}
+              onChange={handleInputChange}
+              placeholder="department@university.edu"
+            />
+            <Input
+              label="Contact Phone"
+              name="contactPhone"
+              value={formData.contactPhone}
+              onChange={handleInputChange}
+              placeholder="+91-1234567890"
+            />
+          </div>
           <div className="flex justify-end space-x-3 pt-4">
             <Button
               type="button"

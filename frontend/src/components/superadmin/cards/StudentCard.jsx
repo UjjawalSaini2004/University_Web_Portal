@@ -9,6 +9,7 @@ const StudentCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
   const [isExpanded, setIsExpanded] = useState(false);
   const [students, setStudents] = useState([]);
   const [pendingStudents, setPendingStudents] = useState([]);
+  const [departments, setDepartments] = useState([]);
   const [loadingData, setLoadingData] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [formData, setFormData] = useState({
@@ -21,7 +22,9 @@ const StudentCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
     gender: '',
     enrollmentNumber: '',
     semester: '',
+    admissionYear: new Date().getFullYear(),
     batch: '',
+    department: '',
     address: ''
   });
   const [submitting, setSubmitting] = useState(false);
@@ -41,16 +44,22 @@ const StudentCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
   const fetchStudentData = async () => {
     try {
       setLoadingData(true);
-      const [studentsRes, pendingRes] = await Promise.all([
+      console.log('🔄 Fetching fresh student data from database...');
+      const [studentsRes, pendingRes, deptsRes] = await Promise.all([
         superAdminService.getAllStudents({ page: 1, limit: 20 }),
-        superAdminService.getPendingStudents()
+        superAdminService.getPendingStudents(),
+        superAdminService.getAllDepartments()
       ]);
 
       if (studentsRes.success) {
         setStudents(studentsRes.data.users || studentsRes.data || []);
+        console.log('✅ Students updated:', studentsRes.data.users?.length || 0, 'students');
       }
       if (pendingRes.success) {
         setPendingStudents(pendingRes.data || []);
+      }
+      if (deptsRes.success) {
+        setDepartments(deptsRes.data || []);
       }
     } catch (error) {
       console.error('Error fetching student data:', error);
@@ -92,7 +101,13 @@ const StudentCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
     e.preventDefault();
     try {
       setSubmitting(true);
-      const result = await superAdminService.createStudent(formData);
+      // Map admissionYear to academicYear for backend
+      const studentData = {
+        ...formData,
+        academicYear: formData.admissionYear
+      };
+      delete studentData.admissionYear;
+      const result = await superAdminService.createStudent(studentData);
       if (result.success) {
         setShowAddModal(false);
         setFormData({
@@ -105,16 +120,20 @@ const StudentCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
           gender: '',
           enrollmentNumber: '',
           semester: '',
+          admissionYear: new Date().getFullYear(),
           batch: '',
+          department: '',
           address: ''
         });
+        console.log('✅ Student created successfully, refetching data...');
         fetchStudentData();
         onRefresh();
         alert('Student created successfully!');
       }
     } catch (error) {
-      console.error('Error creating student:', error);
-      alert('Failed to create student');
+      console.error('❌ Error creating student:', error);
+      const errorMessage = error.response?.data?.message || error.message || 'Failed to create student';
+      alert(`Error: ${errorMessage}`);
     } finally {
       setSubmitting(false);
     }
@@ -122,6 +141,26 @@ const StudentCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleDelete = async (studentId) => {
+    if (!window.confirm('Are you sure you want to delete this student? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      console.log('🗑️ Deleting student from database:', studentId);
+      const result = await superAdminService.deleteStudent(studentId);
+      if (result.success) {
+        alert('Student deleted successfully!');
+        console.log('✅ Student deleted, refetching data...');
+        fetchStudentData(); // Refetch from database
+        onRefresh(); // Refresh dashboard stats
+      }
+    } catch (error) {
+      console.error('❌ Error deleting student:', error);
+      alert('Failed to delete student');
+    }
   };
 
   return (
@@ -228,6 +267,7 @@ const StudentCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Enrollment</th>
                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                        <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -242,6 +282,15 @@ const StudentCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
                             <Badge variant={student.isActive ? 'success' : 'danger'}>
                               {student.isActive ? 'Active' : 'Inactive'}
                             </Badge>
+                          </td>
+                          <td className="px-4 py-3 text-right">
+                            <button
+                              onClick={() => handleDelete(student._id)}
+                              className="text-red-600 hover:text-red-800 font-medium text-sm"
+                              title="Delete student"
+                            >
+                              Delete
+                            </button>
                           </td>
                         </tr>
                       ))}
@@ -366,6 +415,8 @@ const StudentCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
             type="password"
             value={formData.password}
             onChange={handleInputChange}
+            minLength={6}
+            helperText="Minimum 6 characters"
             required
           />
           <div className="grid grid-cols-2 gap-4">
@@ -397,26 +448,69 @@ const StudentCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =
               label="Semester"
               name="semester"
               type="number"
+              min="1"
+              max="8"
               value={formData.semester}
               onChange={handleInputChange}
               required
             />
             <Input
+              label="Admission Year"
+              name="admissionYear"
+              type="number"
+              min="2000"
+              max={new Date().getFullYear() + 1}
+              value={formData.admissionYear}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <Input
               label="Batch"
               name="batch"
               value={formData.batch}
               onChange={handleInputChange}
-              placeholder="2024"
+              placeholder="2021-2025"
               required
             />
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Gender <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleInputChange}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
           </div>
-          <Input
-            label="Gender"
-            name="gender"
-            value={formData.gender}
-            onChange={handleInputChange}
-            required
-          />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Department <span className="text-red-500">*</span>
+            </label>
+            <select
+              name="department"
+              value={formData.department}
+              onChange={handleInputChange}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              <option value="">Select Department</option>
+              {departments.map((dept) => (
+                <option key={dept._id} value={dept._id}>
+                  {dept.name} ({dept.code})
+                </option>
+              ))}
+            </select>
+          </div>
           <Input
             label="Address"
             name="address"

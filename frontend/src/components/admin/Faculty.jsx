@@ -1,44 +1,159 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../common/Layout';
 import adminService from '../../services/adminService';
+import Modal from '../common/Modal';
+import Input from '../common/Input';
 import { FiEdit2, FiTrash2, FiPlus, FiSearch } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import Loader from '../common/Loader';
 
 const Faculty = () => {
   const [faculty, setFaculty] = useState([]);
+  const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [editingFaculty, setEditingFaculty] = useState(null);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+    dateOfBirth: '',
+    gender: '',
+    department: '',
+    designation: '',
+    qualification: '',
+    joiningDate: '',
+    employeeId: '',
+  });
 
   useEffect(() => {
-    fetchFaculty();
+    fetchData();
   }, []);
 
-  const fetchFaculty = async () => {
+  const fetchData = async () => {
     try {
+      console.log('🔄 Fetching faculty and departments from database...');
       setLoading(true);
-      const response = await adminService.getFaculty();
-      console.log('Faculty response:', response);
-      setFaculty(response.data?.data || []);
+      
+      const [facultyRes, deptsRes] = await Promise.all([
+        adminService.getFaculty(),
+        adminService.getDepartments()
+      ]);
+      
+      console.log('✅ Faculty fetched:', facultyRes);
+      console.log('✅ Departments fetched:', deptsRes);
+      
+      setFaculty(facultyRes.data || []);
+      setDepartments(deptsRes.data?.departments || []);
     } catch (error) {
-      console.error('Error fetching faculty:', error);
-      toast.error('Failed to load faculty');
+      console.error('❌ Error fetching data:', error);
+      const errorMessage = error.response?.data?.message || 'Failed to load data';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this faculty member?')) return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     
     try {
-      await adminService.deleteFaculty(id);
-      toast.success('Faculty deleted successfully');
-      fetchFaculty();
+      console.log('📝 Submitting faculty data:', formData);
+      
+      if (editingFaculty) {
+        await adminService.updateFaculty(editingFaculty._id, formData);
+        toast.success('Faculty updated successfully');
+        console.log('✅ Faculty updated, refetching data...');
+      } else {
+        await adminService.addFaculty(formData);
+        toast.success('Faculty added successfully');
+        console.log('✅ Faculty created, refetching data...');
+      }
+      
+      // Immediately refetch fresh data from database
+      await fetchData();
+      
+      // Reset form and close modal
+      setShowModal(false);
+      setEditingFaculty(null);
+      setFormData({
+        email: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
+        dateOfBirth: '',
+        gender: '',
+        department: '',
+        designation: '',
+        qualification: '',
+        joiningDate: '',
+        employeeId: '',
+      });
     } catch (error) {
-      console.error('Error deleting faculty:', error);
-      toast.error('Failed to delete faculty');
+      console.error('❌ Error saving faculty:', error);
+      const errorMessage = error.response?.data?.message || 'Failed to save faculty';
+      toast.error(errorMessage);
     }
+  };
+
+  const handleEdit = (member) => {
+    setEditingFaculty(member);
+    setFormData({
+      email: member.email || '',
+      password: '',
+      firstName: member.firstName || '',
+      lastName: member.lastName || '',
+      phoneNumber: member.phoneNumber || '',
+      dateOfBirth: member.dateOfBirth?.split('T')[0] || '',
+      gender: member.gender || '',
+      department: member.department?._id || '',
+      designation: member.designation || '',
+      qualification: member.qualification || '',
+      joiningDate: member.joiningDate?.split('T')[0] || '',
+      employeeId: member.employeeId || '',
+    });
+    setShowModal(true);
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to deactivate this faculty member?')) return;
+    
+    try {
+      console.log('🗑️ Deleting faculty:', id);
+      await adminService.deleteFaculty(id);
+      toast.success('Faculty deactivated successfully');
+      console.log('✅ Faculty deleted, refetching data...');
+      
+      // Immediately refetch fresh data from database
+      await fetchData();
+    } catch (error) {
+      console.error('❌ Error deleting faculty:', error);
+      const errorMessage = error.response?.data?.message || 'Failed to delete faculty';
+      toast.error(errorMessage);
+    }
+  };
+
+  const handleAdd = () => {
+    setEditingFaculty(null);
+    setFormData({
+      email: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      phoneNumber: '',
+      dateOfBirth: '',
+      gender: '',
+      department: '',
+      designation: '',
+      qualification: '',
+      joiningDate: '',
+      employeeId: '',
+    });
+    setShowModal(true);
   };
 
   const filteredFaculty = faculty.filter(f => 
@@ -57,7 +172,7 @@ const Faculty = () => {
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900">Faculty Management</h1>
-          <button className="btn btn-primary flex items-center space-x-2">
+          <button onClick={handleAdd} className="btn btn-primary flex items-center space-x-2">
             <FiPlus size={20} />
             <span>Add Faculty</span>
           </button>
@@ -147,7 +262,7 @@ const Faculty = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button
                           className="text-primary-600 hover:text-primary-900 mr-4"
-                          onClick={() => toast.info('Edit functionality coming soon')}
+                          onClick={() => handleEdit(member)}
                         >
                           <FiEdit2 size={18} />
                         </button>
@@ -165,6 +280,159 @@ const Faculty = () => {
             </table>
           </div>
         </div>
+
+        {/* Add/Edit Modal */}
+        {showModal && (
+          <Modal
+            isOpen={showModal}
+            onClose={() => {
+              setShowModal(false);
+              setEditingFaculty(null);
+            }}
+            title={editingFaculty ? 'Edit Faculty' : 'Add New Faculty'}
+          >
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <Input
+                  label="First Name"
+                  type="text"
+                  required
+                  value={formData.firstName}
+                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                />
+                <Input
+                  label="Last Name"
+                  type="text"
+                  required
+                  value={formData.lastName}
+                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                />
+              </div>
+
+              <Input
+                label="Email"
+                type="email"
+                required
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                disabled={editingFaculty !== null}
+              />
+
+              {!editingFaculty && (
+                <Input
+                  label="Password"
+                  type="password"
+                  required
+                  minLength={6}
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                />
+              )}
+
+              <div className="grid grid-cols-2 gap-4">
+                <Input
+                  label="Phone Number"
+                  type="tel"
+                  required
+                  value={formData.phoneNumber}
+                  onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+                />
+                <Input
+                  label="Date of Birth"
+                  type="date"
+                  required
+                  value={formData.dateOfBirth}
+                  onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                <select
+                  required
+                  value={formData.gender}
+                  onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                  className="input"
+                >
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                <select
+                  required
+                  value={formData.department}
+                  onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                  className="input"
+                >
+                  <option value="">Select Department</option>
+                  {departments.map((dept) => (
+                    <option key={dept._id} value={dept._id}>
+                      {dept.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <Input
+                  label="Designation"
+                  type="text"
+                  required
+                  value={formData.designation}
+                  onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
+                  placeholder="e.g., Professor, Assistant Professor"
+                />
+                <Input
+                  label="Qualification"
+                  type="text"
+                  required
+                  value={formData.qualification}
+                  onChange={(e) => setFormData({ ...formData, qualification: e.target.value })}
+                  placeholder="e.g., Ph.D., M.Tech"
+                />
+              </div>
+
+              <Input
+                label="Joining Date"
+                type="date"
+                required
+                value={formData.joiningDate}
+                onChange={(e) => setFormData({ ...formData, joiningDate: e.target.value })}
+              />
+
+              {editingFaculty && (
+                <Input
+                  label="Employee ID"
+                  type="text"
+                  value={formData.employeeId}
+                  onChange={(e) => setFormData({ ...formData, employeeId: e.target.value })}
+                  disabled
+                />
+              )}
+
+              <div className="flex justify-end space-x-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowModal(false);
+                    setEditingFaculty(null);
+                  }}
+                  className="btn btn-secondary"
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="btn btn-primary">
+                  {editingFaculty ? 'Update Faculty' : 'Add Faculty'}
+                </button>
+              </div>
+            </form>
+          </Modal>
+        )}
       </div>
     </Layout>
   );

@@ -8,6 +8,7 @@ import Button from '../../common/Button';
 const CourseCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [courses, setCourses] = useState([]);
+  const [departments, setDepartments] = useState([]);
   const [loadingData, setLoadingData] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [formData, setFormData] = useState({
@@ -15,8 +16,10 @@ const CourseCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =>
     code: '',
     credits: '',
     semester: '',
+    type: '',
     description: '',
-    department: ''
+    department: '',
+    academicYear: `${new Date().getFullYear()}-${new Date().getFullYear() + 1}`
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -35,9 +38,15 @@ const CourseCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =>
   const fetchCourseData = async () => {
     try {
       setLoadingData(true);
-      const result = await superAdminService.getAllCourses({ page: 1, limit: 20 });
-      if (result.success) {
-        setCourses(result.data.courses || result.data || []);
+      const [coursesRes, deptsRes] = await Promise.all([
+        superAdminService.getAllCourses({ page: 1, limit: 20 }),
+        superAdminService.getAllDepartments()
+      ]);
+      if (coursesRes.success) {
+        setCourses(coursesRes.data.courses || coursesRes.data || []);
+      }
+      if (deptsRes.success) {
+        setDepartments(deptsRes.data || []);
       }
     } catch (error) {
       console.error('Error fetching course data:', error);
@@ -74,8 +83,10 @@ const CourseCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =>
           code: '',
           credits: '',
           semester: '',
+          type: '',
           description: '',
-          department: ''
+          department: '',
+          academicYear: `${new Date().getFullYear()}-${new Date().getFullYear() + 1}`
         });
         fetchCourseData();
         onRefresh();
@@ -273,29 +284,68 @@ const CourseCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =>
               label="Credits"
               name="credits"
               type="number"
+              min="1"
+              max="10"
               value={formData.credits}
               onChange={handleInputChange}
-              placeholder="e.g., 4"
               required
             />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <Input
               label="Semester"
               name="semester"
               type="number"
+              min="1"
+              max="8"
               value={formData.semester}
               onChange={handleInputChange}
-              placeholder="e.g., 3"
               required
             />
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Course Type <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="type"
+                value={formData.type}
+                onChange={handleInputChange}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="">Select Type</option>
+                <option value="theory">Theory</option>
+                <option value="practical">Practical</option>
+                <option value="theory_practical">Theory + Practical</option>
+              </select>
+            </div>
             <Input
-              label="Department ID"
+              label="Academic Year"
+              name="academicYear"
+              value={formData.academicYear}
+              onChange={handleInputChange}
+              placeholder="2024-2025"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Department <span className="text-red-500">*</span>
+            </label>
+            <select
               name="department"
               value={formData.department}
               onChange={handleInputChange}
-              placeholder="Department ID"
-            />
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              <option value="">Select Department</option>
+              {departments.map((dept) => (
+                <option key={dept._id} value={dept._id}>
+                  {dept.name} ({dept.code})
+                </option>
+              ))}
+            </select>
           </div>
           <Input
             label="Description"
@@ -303,6 +353,7 @@ const CourseCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) =>
             value={formData.description}
             onChange={handleInputChange}
             placeholder="Brief course description"
+            required
           />
           <div className="flex justify-end space-x-3 pt-4">
             <Button

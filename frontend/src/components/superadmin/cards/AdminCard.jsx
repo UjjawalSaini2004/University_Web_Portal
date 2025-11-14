@@ -360,6 +360,8 @@ const AdminCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) => 
             type="password"
             value={formData.password}
             onChange={handleInputChange}
+            minLength={6}
+            helperText="Minimum 6 characters"
             required
           />
           <div className="grid grid-cols-2 gap-4">
@@ -379,20 +381,23 @@ const AdminCard = ({ stats, loading, onRefresh, activeCard, setActiveCard }) => 
               required
             />
           </div>
-          <Input
-            label="Gender"
-            name="gender"
-            value={formData.gender}
-            onChange={handleInputChange}
-            required
-          />
-          <Input
-            label="Department"
-            name="department"
-            value={formData.department}
-            onChange={handleInputChange}
-            placeholder="Department ID (optional)"
-          />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Gender <span className="text-red-500">*</span>
+            </label>
+            <select
+              name="gender"
+              value={formData.gender}
+              onChange={handleInputChange}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
           <Input
             label="Address"
             name="address"

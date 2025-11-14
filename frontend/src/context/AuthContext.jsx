@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import authService from '../services/authService';
 import { ROUTES, ROLES } from '../utils/constants';
+import { hasPermission, canAccessSection, getRolePermissions } from '../utils/permissions';
 import { toast } from 'react-toastify';
 
 const AuthContext = createContext(null);
@@ -184,6 +185,30 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('user', JSON.stringify(newUserData));
   };
 
+  // Permission helper functions
+  const checkPermission = (action, resource) => {
+    if (!user || !user.role) return false;
+    return hasPermission(user.role, action, resource);
+  };
+
+  const checkSectionAccess = (section) => {
+    if (!user || !user.role) return false;
+    return canAccessSection(user.role, section);
+  };
+
+  const getUserPermissions = () => {
+    if (!user || !user.role) return {};
+    return getRolePermissions(user.role);
+  };
+
+  const isSuperAdmin = () => {
+    return user?.role === ROLES.SUPER_ADMIN;
+  };
+
+  const isAdmin = () => {
+    return user?.role === ROLES.ADMIN || user?.role === ROLES.SUPER_ADMIN;
+  };
+
   const value = {
     user,
     token,
@@ -193,6 +218,12 @@ export const AuthProvider = ({ children }) => {
     register,
     logout,
     updateUser,
+    // Permission functions
+    checkPermission,
+    checkSectionAccess,
+    getUserPermissions,
+    isSuperAdmin,
+    isAdmin,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

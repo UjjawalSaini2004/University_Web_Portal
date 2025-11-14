@@ -97,6 +97,11 @@ export const updateTeacher = async (teacherId, updates) => {
   return response.data;
 };
 
+export const deleteTeacher = async (teacherId) => {
+  const response = await api.delete(`${BASE_URL}/teachers/${teacherId}`);
+  return response.data;
+};
+
 // ==================== STUDENT MANAGEMENT ====================
 
 export const getAllStudents = async (params = {}) => {
@@ -126,6 +131,11 @@ export const denyStudent = async (studentId, reason) => {
 
 export const updateStudent = async (studentId, updates) => {
   const response = await api.put(`${BASE_URL}/students/${studentId}`, updates);
+  return response.data;
+};
+
+export const deleteStudent = async (studentId) => {
+  const response = await api.delete(`${BASE_URL}/students/${studentId}`);
   return response.data;
 };
 
@@ -217,6 +227,7 @@ const superAdminService = {
   approveTeacher,
   denyTeacher,
   updateTeacher,
+  deleteTeacher,
   // Student Management
   getAllStudents,
   getPendingStudents,
@@ -224,6 +235,7 @@ const superAdminService = {
   approveStudent,
   denyStudent,
   updateStudent,
+  deleteStudent,
   // Course Management
   getAllCourses,
   createCourse,
