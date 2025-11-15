@@ -517,3 +517,23 @@
 {"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-14 17:43:57"}
 {"level":"info","message":"Course deleted by super admin: CS201","service":"university-portal","timestamp":"2025-11-14 17:44:12"}
 {"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-14 17:55:23"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-15 00:23:23"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-15 00:23:23"}
+{"level":"warn","message":"MongoDB disconnected","service":"university-portal","timestamp":"2025-11-15 00:23:24"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-15 00:25:58"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-15 00:25:58"}
+{"level":"info","message":"User logged in: admin@university.edu","service":"university-portal","timestamp":"2025-11-15 00:26:07"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-15 00:27:27"}
+{"level":"info","message":"User logged in: demoteacher1@gmail.com","service":"university-portal","timestamp":"2025-11-15 00:28:02"}
+{"level":"info","message":"Course deleted by super admin: CSE501","service":"university-portal","timestamp":"2025-11-15 00:28:20"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"university-portal","timestamp":"2025-11-15 10:00:40"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"university-portal","timestamp":"2025-11-15 10:00:40"}
+{"level":"info","message":"User logged in: ujjawalsaini2004@gmail.com","service":"university-portal","timestamp":"2025-11-15 10:01:27"}
+{"level":"info","message":"Fetched 0 pending admin registrations","service":"university-portal","timestamp":"2025-11-15 10:02:18"}
+{"deletedBy":"ujjawalsaini2004@gmail.com","level":"info","message":"User deleted by super admin: demoadmin2@gmail.com","service":"university-portal","timestamp":"2025-11-15 10:03:15"}
+{"deletedBy":"ujjawalsaini2004@gmail.com","level":"info","message":"User deleted by super admin: demoteacher1@gmail.com","service":"university-portal","timestamp":"2025-11-15 10:03:20"}
+{"deletedBy":"ujjawalsaini2004@gmail.com","level":"info","message":"User deleted by super admin: demostudent@gmail.com","service":"university-portal","timestamp":"2025-11-15 10:03:24"}
+{"deletedBy":"ujjawalsaini2004@gmail.com","level":"info","message":"User deleted by super admin: demo3@gmail.com","service":"university-portal","timestamp":"2025-11-15 10:03:27"}
+{"deletedBy":"ujjawalsaini2004@gmail.com","level":"info","message":"User deleted by super admin: teacher@gmail.com","service":"university-portal","timestamp":"2025-11-15 10:03:32"}
+{"deletedBy":"ujjawalsaini2004@gmail.com","level":"info","message":"User deleted by super admin: demo@university.edu","service":"university-portal","timestamp":"2025-11-15 10:03:38"}
+{"deletedBy":"ujjawalsaini2004@gmail.com","level":"info","message":"User deleted by super admin: admin@university.edu","service":"university-portal","timestamp":"2025-11-15 10:03:43"}
